@@ -3302,3 +3302,402 @@ a {
     font-size: 15px;
   }
 }
+
+/* =========================
+   FINAL MOBILE OVERRIDES
+========================= */
+
+@media (max-width: 800px) {
+
+  body {
+    min-width: 0;
+    overflow-x: hidden;
+  }
+
+  .navbar {
+    height: 70px;
+    padding: 0 20px;
+  }
+
+  .logo {
+    font-size: 25px;
+  }
+
+  .nav-button {
+    padding: 9px 16px;
+    font-size: 13px;
+  }
+
+  .hero {
+    width: 100%;
+    min-height: auto;
+    padding: 45px 20px 60px;
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+    align-items: stretch;
+  }
+
+  .hero-content {
+    width: 100%;
+  }
+
+  .hero h1 {
+    font-size: clamp(44px, 14vw, 58px);
+    line-height: 0.98;
+    letter-spacing: -2.5px;
+    max-width: 100%;
+  }
+
+  .hero-description {
+    font-size: 14px;
+    line-height: 1.7;
+    margin: 24px 0;
+    max-width: 100%;
+  }
+
+  .hero-actions {
+    width: 100%;
+    gap: 10px;
+  }
+
+  .primary-button,
+  .secondary-button {
+    padding: 13px 17px;
+    font-size: 13px;
+  }
+
+  .hero-art {
+    width: 100%;
+    margin-top: 15px;
+    justify-content: center;
+  }
+
+  .art-card {
+    width: min(100%, 330px);
+    height: 390px;
+  }
+
+  .floating-note {
+    right: 0;
+    bottom: 20px;
+    padding: 11px 15px;
+    font-size: 11px;
+  }
+}
+
+
+/* VERY SMALL PHONES */
+
+@media (max-width: 360px) {
+
+  .navbar {
+    padding: 0 16px;
+  }
+
+  .logo {
+    font-size: 23px;
+  }
+
+  .nav-button {
+    padding: 8px 13px;
+  }
+
+  .hero {
+    padding-left: 16px;
+    padding-right: 16px;
+  }
+
+  .hero h1 {
+    font-size: 43px;
+    letter-spacing: -2px;
+  }
+
+  .hero-actions {
+    flex-direction: column;
+  }
+
+  .hero-actions .primary-button,
+  .hero-actions .secondary-button {
+    width: 100%;
+    text-align: center;
+  }
+
+  .art-card {
+    height: 350px;
+  }
+}
+
+/* =========================
+   MOBILE TYPOGRAPHY
+========================= */
+
+@media (max-width: 800px) {
+
+  /* Main headings */
+
+  .hero h1 {
+    font-size: 46px;
+    line-height: 1;
+    letter-spacing: -2px;
+  }
+
+  .statement h2,
+  .custom-section h2,
+  .orders-section h2 {
+    font-size: 42px;
+    line-height: 1.05;
+    letter-spacing: -1.5px;
+  }
+
+  .details-info h1 {
+    font-size: 44px;
+    line-height: 1.05;
+    letter-spacing: -1.5px;
+  }
+
+  .order-form-section h1 {
+    font-size: 44px;
+    line-height: 1.05;
+    letter-spacing: -1.5px;
+  }
+
+  .custom-intro h1 {
+    font-size: 44px;
+    line-height: 1.05;
+    letter-spacing: -1.5px;
+  }
+
+
+  /* Supporting / normal text */
+
+  .hero-description,
+  .statement > p:not(.eyebrow),
+  .custom-content > p:not(.eyebrow),
+  .orders-section p:not(.eyebrow),
+  .details-description,
+  .order-intro,
+  .custom-description {
+    font-size: 15px;
+    line-height: 1.75;
+  }
+
+
+  /* Product information */
+
+  .product-info h3 {
+    font-size: 16px;
+    line-height: 1.35;
+  }
+
+  .product-info .design-id {
+    font-size: 10px;
+  }
+
+  .product-price strong {
+    font-size: 17px;
+  }
+
+
+  /* Detail-page information */
+
+  .details-price {
+    font-size: 25px;
+  }
+
+  .details-meta strong {
+    font-size: 14px;
+  }
+
+  .details-note {
+    font-size: 13px;
+    line-height: 1.7;
+  }
+
+
+  /* Small labels */
+
+  .eyebrow {
+    font-size: 10px;
+    letter-spacing: 1.7px;
+  }
+
+  .filter-heading span,
+  .filter-heading strong {
+    font-size: 13px;
+  }
+}
+
+
+/* EXTRA SMALL PHONES */
+
+@media (max-width: 360px) {
+
+  .hero h1,
+  .statement h2,
+  .custom-section h2,
+  .orders-section h2,
+  .details-info h1,
+  .order-form-section h1,
+  .custom-intro h1 {
+    font-size: 40px;
+  }
+
+  .hero-description,
+  .statement > p:not(.eyebrow),
+  .custom-content > p:not(.eyebrow),
+  .orders-section p:not(.eyebrow),
+  .details-description,
+  .order-intro,
+  .custom-description {
+    font-size: 14px;
+  }
+}
+
+/* =========================
+   MOBILE CATALOGUE — FINAL
+========================= */
+
+@media (max-width: 600px) {
+
+  .collection .product-grid {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    column-gap: 16px;
+    row-gap: 38px;
+  }
+
+  .collection .product-card {
+    width: 100%;
+    max-width: none;
+    margin: 0;
+  }
+
+  .collection .product-image {
+    width: 100%;
+    height: 205px;
+    border-radius: 16px;
+  }
+
+  .collection .product-info {
+    padding: 8px 2px 0;
+    min-height: 0;
+    gap: 6px;
+  }
+
+  .collection .product-info-main {
+    min-width: 0;
+  }
+
+  .collection .product-info .design-id {
+    font-size: 8px;
+    letter-spacing: 1px;
+    margin: 0 0 3px;
+  }
+
+  .collection .product-info h3 {
+    font-size: 14px;
+    line-height: 1.25;
+  }
+
+  .collection .product-price {
+    padding-top: 0;
+  }
+
+  .collection .product-price small {
+    font-size: 7px;
+    letter-spacing: 0.8px;
+    margin-bottom: 3px;
+  }
+
+  .collection .product-price strong {
+    font-size: 14px;
+  }
+}
+
+
+/* Very small screens */
+
+@media (max-width: 360px) {
+
+  .collection .product-grid {
+    column-gap: 12px;
+    row-gap: 32px;
+  }
+
+  .collection .product-image {
+    height: 180px;
+  }
+
+  .collection .product-info h3 {
+    font-size: 13px;
+  }
+
+  .collection .product-price strong {
+    font-size: 13px;
+  }
+}
+
+@media (max-width: 600px) {
+
+  .collection .product-info {
+    display: grid;
+    grid-template-columns: minmax(0, 1fr) auto;
+    align-items: start;
+    column-gap: 8px;
+    padding: 9px 2px 0;
+    min-height: 0;
+  }
+
+  .collection .product-info-main {
+    min-width: 0;
+  }
+
+  .collection .product-info .design-id {
+    font-size: 8px;
+    letter-spacing: 1px;
+    margin: 0 0 3px;
+  }
+
+  .collection .product-info h3 {
+    font-size: 14px;
+    line-height: 1.3;
+    margin: 0;
+  }
+
+  .collection .product-price {
+    min-width: 48px;
+    padding-top: 0;
+    align-items: flex-end;
+  }
+
+  .collection .product-price small {
+    font-size: 7px;
+    letter-spacing: 0.8px;
+    margin-bottom: 3px;
+  }
+
+  .collection .product-price strong {
+    font-size: 14px;
+    white-space: nowrap;
+  }
+}
+
+.collection .product-info h3 {
+  display: -webkit-box;
+  -webkit-box-orient: vertical;
+  -webkit-line-clamp: 2;
+  overflow: hidden;
+}
+
+@media (max-width: 600px) {
+
+  .collection .product-info {
+    padding-left: 10px;
+    padding-right: 10px;
+  }
+
+  .collection .product-price {
+    padding-right: 4px;
+  }
+}
