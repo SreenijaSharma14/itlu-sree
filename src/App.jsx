@@ -7,6 +7,7 @@ import DesignDetails from "./pages/DesignDetails";
 import CustomDesign from "./pages/CustomDesign";
 import Cart from "./pages/Cart";
 import ScrollToTop from "./ScrollToTop";
+import ScrollReveal from "./ScrollReveal";
 
 function Home() {
   const { totalItems } = useCart();
@@ -88,7 +89,7 @@ function Home() {
 
 
         {/* Brand statement */}
-        <section className="statement" id="about">
+        <section className="statement reveal" id="about">
           <p className="eyebrow">A LITTLE ABOUT ITLU SREE</p>
 
           <h2>
@@ -105,7 +106,7 @@ function Home() {
 
 
         {/* Custom */}
-        <section className="custom-section" id="custom">
+        <section className="custom-section reveal" id="custom">
 
           <div className="custom-content">
             <p className="eyebrow">SOMETHING IN MIND?</p>
@@ -135,7 +136,7 @@ function Home() {
 
 
         {/* Limited orders */}
-        <section className="orders-section">
+        <section className="orders-section reveal">
 
           <div>
             <p className="eyebrow">OCTOBER DROP</p>
@@ -188,7 +189,7 @@ function App() {
     <BrowserRouter>
       
       <ScrollToTop />
-
+      <ScrollReveal />
       <Routes>
 
         <Route

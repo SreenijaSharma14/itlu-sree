@@ -172,14 +172,17 @@ function Collection() {
 
       <div className="product-grid">
 
-        {filteredDesigns.map((design) => (
-
-          <ProductCard
-            key={design.id}
-            design={design}
-          />
-
-        ))}
+        {filteredDesigns.map((design, index) => (
+  <div
+    key={design.id}
+    className="catalogue-reveal"
+    style={{
+      "--delay": `${index * 0.06}s`,
+    }}
+  >
+    <ProductCard design={design} />
+  </div>
+))}
 
       </div>
 

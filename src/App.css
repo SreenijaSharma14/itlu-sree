@@ -3701,3 +3701,1008 @@ a {
     padding-right: 4px;
   }
 }
+
+/* =========================================
+   NON-CATALOGUE MOBILE TYPOGRAPHY
+========================================= */
+
+@media (max-width: 600px) {
+
+  /* Main headings */
+  .hero h1 {
+    font-size: 42px;
+  }
+
+  .statement h2,
+  .custom-section h2,
+  .orders-section h2 {
+    font-size: 38px;
+  }
+
+  .details-info h1,
+  .custom-intro h1,
+  .cart-heading h1,
+  .order-form-section h1 {
+    font-size: 39px;
+  }
+
+  .related-heading h2 {
+    font-size: 36px;
+  }
+
+
+  /* Body text */
+  .hero-description,
+  .statement > p:not(.eyebrow),
+  .custom-content > p:not(.eyebrow),
+  .orders-section p:not(.eyebrow),
+  .details-description,
+  .order-intro,
+  .custom-description {
+    font-size: 14px;
+    line-height: 1.7;
+  }
+
+
+  /* Design details */
+  .details-price {
+    font-size: 24px;
+  }
+
+  .details-meta strong {
+    font-size: 13px;
+  }
+
+  .details-note {
+    font-size: 12px;
+    line-height: 1.7;
+  }
+
+
+  /* Forms */
+  .form-field label {
+    font-size: 13px;
+  }
+
+  .form-field input,
+  .form-field textarea,
+  .form-field select {
+    font-size: 14px;
+  }
+
+  .custom-pricing-note {
+    font-size: 12px;
+    line-height: 1.6;
+  }
+
+
+  /* Cart / checkout */
+  .cart-heading p,
+  .cart-empty p,
+  .order-summary p,
+  .checkout-note {
+    font-size: 13px;
+    line-height: 1.6;
+  }
+
+  .success-content > p {
+    font-size: 14px;
+    line-height: 1.7;
+  }
+
+
+  /* Buttons */
+  .primary-button,
+  .secondary-button,
+  .order-button,
+  .go-to-cart-button {
+    font-size: 13px;
+  }
+
+  /* Keep catalogue typography untouched */
+  .collection .product-info h3,
+  .collection .product-info .design-id,
+  .collection .product-price small,
+  .collection .product-price strong {
+    /* intentionally unchanged */
+  }
+}
+
+/* =========================================
+   ITLU SREE — SOFT MOTION
+========================================= */
+
+@keyframes softRise {
+  from {
+    opacity: 0;
+    transform: translateY(24px);
+  }
+
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes softFloat {
+  0%,
+  100% {
+    transform: translateY(0);
+  }
+
+  50% {
+    transform: translateY(-7px);
+  }
+}
+
+
+/* Hero entrance */
+
+.hero-content {
+  animation: softRise 0.8s ease-out both;
+}
+
+.hero-art {
+  animation:
+    softRise 0.9s ease-out 0.12s both,
+    softFloat 5s ease-in-out 1s infinite;
+}
+
+
+/* Buttons */
+
+.primary-button,
+.secondary-button,
+.order-button,
+.go-to-cart-button {
+  transition:
+    transform 0.25s ease,
+    box-shadow 0.25s ease,
+    background 0.25s ease;
+}
+
+.primary-button:hover,
+.secondary-button:hover,
+.order-button:hover,
+.go-to-cart-button:hover {
+  transform: translateY(-3px);
+}
+
+
+/* Custom mark */
+
+.custom-mark {
+  animation: softFloat 6s ease-in-out infinite;
+}
+
+
+/* Catalogue hover */
+
+.product-card {
+  transition:
+    transform 0.3s ease,
+    opacity 0.3s ease;
+}
+
+.product-card:hover {
+  transform: translateY(-5px);
+}
+
+
+/* Related designs */
+
+.related-card {
+  transition:
+    transform 0.3s ease,
+    opacity 0.3s ease;
+}
+
+.related-card:hover {
+  transform: translateY(-5px);
+}
+
+
+/* Image hover */
+
+.product-image img,
+.related-image img {
+  transition: transform 0.45s ease;
+}
+
+.product-card:hover .product-image img,
+.related-card:hover .related-image img {
+  transform: scale(1.035);
+}
+
+
+/* =========================================
+   REDUCED MOTION ACCESSIBILITY
+========================================= */
+
+@media (prefers-reduced-motion: reduce) {
+
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
+}
+
+/* =========================================
+   ITLU SREE — CINEMATIC + CUTE MOTION
+========================================= */
+
+@keyframes itluReveal {
+  from {
+    opacity: 0;
+    transform: translateY(30px);
+    filter: blur(5px);
+  }
+
+  to {
+    opacity: 1;
+    transform: translateY(0);
+    filter: blur(0);
+  }
+}
+
+@keyframes itluSoftReveal {
+  from {
+    opacity: 0;
+    transform: translateY(18px);
+  }
+
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes itluFloat {
+  0%,
+  100% {
+    transform: translateY(0) rotate(0deg);
+  }
+
+  50% {
+    transform: translateY(-8px) rotate(1deg);
+  }
+}
+
+@keyframes itluTinyFloat {
+  0%,
+  100% {
+    transform: translateY(0);
+  }
+
+  50% {
+    transform: translateY(-4px);
+  }
+}
+
+@keyframes itluPop {
+  0% {
+    transform: scale(0.92);
+    opacity: 0;
+  }
+
+  70% {
+    transform: scale(1.04);
+  }
+
+  100% {
+    transform: scale(1);
+    opacity: 1;
+  }
+}
+
+
+/* =========================================
+   HERO — CINEMATIC INTRO
+========================================= */
+
+.hero-content .eyebrow {
+  animation: itluReveal 0.7s ease-out both;
+}
+
+.hero-content h1 {
+  animation: itluReveal 0.9s ease-out 0.12s both;
+}
+
+.hero-description {
+  animation: itluSoftReveal 0.8s ease-out 0.28s both;
+}
+
+.hero-actions {
+  animation: itluSoftReveal 0.8s ease-out 0.4s both;
+}
+
+.hero-art {
+  animation: itluReveal 1s ease-out 0.2s both;
+}
+
+
+/* =========================================
+   FLOATING ART
+========================================= */
+
+.floating-note {
+  animation:
+    itluPop 0.7s ease-out 0.8s both,
+    itluTinyFloat 4s ease-in-out 1.5s infinite;
+}
+
+.custom-mark {
+  animation: itluFloat 6s ease-in-out infinite;
+}
+
+
+/* =========================================
+   SECTION REVEALS
+========================================= */
+
+.statement,
+.custom-section,
+.orders-section {
+  animation: itluSoftReveal 0.8s ease-out both;
+}
+
+
+/* =========================================
+   CUTE BUTTON INTERACTIONS
+========================================= */
+
+.primary-button,
+.secondary-button,
+.order-button,
+.go-to-cart-button {
+  position: relative;
+  transition:
+    transform 0.3s ease,
+    box-shadow 0.3s ease;
+}
+
+.primary-button:hover,
+.secondary-button:hover,
+.order-button:hover,
+.go-to-cart-button:hover {
+  transform: translateY(-3px);
+}
+
+
+/* tiny press */
+
+.primary-button:active,
+.secondary-button:active,
+.order-button:active,
+.go-to-cart-button:active {
+  transform: translateY(0) scale(0.98);
+}
+
+
+/* =========================================
+   SIZE BUTTONS
+========================================= */
+
+.size-option {
+  transition:
+    transform 0.2s ease,
+    background 0.2s ease,
+    border-color 0.2s ease;
+}
+
+.size-option:hover {
+  transform: translateY(-2px);
+}
+
+.size-option:active {
+  transform: scale(0.95);
+}
+
+
+/* =========================================
+   CART — LITTLE POP
+========================================= */
+
+.cart-count {
+  display: inline-block;
+  animation: itluPop 0.35s ease-out;
+}
+
+
+/* =========================================
+   SUCCESS CHECK
+========================================= */
+
+.success-mark {
+  animation: itluPop 0.65s cubic-bezier(.17,.67,.35,1.25) both;
+}
+
+
+/* =========================================
+   IMAGE HOVER
+========================================= */
+
+.product-image img,
+.related-image img {
+  transition:
+    transform 0.5s cubic-bezier(.2,.7,.2,1);
+}
+
+.product-card:hover .product-image img,
+.related-card:hover .related-image img {
+  transform: scale(1.035);
+}
+
+
+/* =========================================
+   REDUCED MOTION
+========================================= */
+
+@media (prefers-reduced-motion: reduce) {
+
+  *,
+  *::before,
+  *::after {
+    animation: none !important;
+    transition: none !important;
+  }
+}
+
+/* Fix spacing between filters and catalogue */
+
+@media (max-width: 768px) {
+  .collection .clear-filters {
+    display: block;
+    margin-top: 8px;
+    margin-bottom: 32px;
+    position: relative;
+    z-index: 2;
+  }
+
+  .collection .product-grid {
+    position: relative;
+    z-index: 1;
+  }
+}
+
+/* =========================================
+   CINEMATIC SCROLL REVEALS
+========================================= */
+
+.reveal {
+  opacity: 0;
+  transform: translateY(35px);
+  filter: blur(4px);
+  transition:
+    opacity 0.9s ease,
+    transform 0.9s cubic-bezier(0.2, 0.7, 0.2, 1),
+    filter 0.9s ease;
+}
+
+.reveal.is-visible {
+  opacity: 1;
+  transform: translateY(0);
+  filter: blur(0);
+}
+
+
+/* Slightly slower reveal for the custom section */
+
+.custom-section.reveal {
+  transition-delay: 0.05s;
+}
+
+
+/* Respect reduced-motion settings */
+
+@media (prefers-reduced-motion: reduce) {
+  .reveal,
+  .reveal.is-visible {
+    opacity: 1;
+    transform: none;
+    filter: none;
+    transition: none;
+  }
+}
+
+/* =========================================
+   ITLU SREE — CINEMATIC HERO INTRO
+========================================= */
+
+.hero-content .eyebrow {
+  opacity: 0;
+  animation: heroFadeUp 0.7s ease-out 0.15s forwards;
+}
+
+.hero-content h1 {
+  opacity: 0;
+  animation: heroTitle 1s cubic-bezier(0.2, 0.7, 0.2, 1) 0.3s forwards;
+}
+
+.hero-content .hero-description {
+  opacity: 0;
+  animation: heroFadeUp 0.8s ease-out 0.55s forwards;
+}
+
+.hero-content .hero-actions {
+  opacity: 0;
+  animation: heroFadeUp 0.8s ease-out 0.7s forwards;
+}
+
+.hero-art {
+  opacity: 0;
+  animation: heroArtIn 1.1s cubic-bezier(0.2, 0.7, 0.2, 1) 0.45s forwards;
+}
+
+
+/* -----------------------------------------
+   HERO KEYFRAMES
+----------------------------------------- */
+
+@keyframes heroFadeUp {
+  from {
+    opacity: 0;
+    transform: translateY(18px);
+  }
+
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes heroTitle {
+  from {
+    opacity: 0;
+    transform: translateY(30px);
+    filter: blur(7px);
+  }
+
+  to {
+    opacity: 1;
+    transform: translateY(0);
+    filter: blur(0);
+  }
+}
+
+@keyframes heroArtIn {
+  from {
+    opacity: 0;
+    transform: translateY(25px) scale(0.96);
+    filter: blur(5px);
+  }
+
+  to {
+    opacity: 1;
+    transform: translateY(0) scale(1);
+    filter: blur(0);
+  }
+}
+
+
+/* -----------------------------------------
+   FLOATING ARTWORK
+----------------------------------------- */
+
+.hero-art .art-card-main {
+  animation: artworkFloat 6s ease-in-out 1.7s infinite;
+}
+
+@keyframes artworkFloat {
+  0%,
+  100% {
+    transform: translateY(0) rotate(0deg);
+  }
+
+  50% {
+    transform: translateY(-7px) rotate(0.5deg);
+  }
+}
+
+
+/* -----------------------------------------
+   CUTE LITTLE FLOATING NOTE
+----------------------------------------- */
+
+.floating-note {
+  animation:
+    noteAppear 0.7s ease-out 1.25s both,
+    noteFloat 4s ease-in-out 2s infinite;
+}
+
+@keyframes noteAppear {
+  from {
+    opacity: 0;
+    transform: translateY(10px) scale(0.92);
+  }
+
+  to {
+    opacity: 1;
+    transform: translateY(0) scale(1);
+  }
+}
+
+@keyframes noteFloat {
+  0%,
+  100% {
+    transform: translateY(0) rotate(0deg);
+  }
+
+  50% {
+    transform: translateY(-4px) rotate(1deg);
+  }
+}
+
+
+/* -----------------------------------------
+   ACCESSIBILITY
+----------------------------------------- */
+
+@media (prefers-reduced-motion: reduce) {
+  .hero-content .eyebrow,
+  .hero-content h1,
+  .hero-content .hero-description,
+  .hero-content .hero-actions,
+  .hero-art,
+  .hero-art .art-card-main,
+  .floating-note {
+    animation: none;
+    opacity: 1;
+    transform: none;
+    filter: none;
+  }
+}
+
+/* =========================================
+   ITLU SREE — CUTE MICRO INTERACTIONS
+========================================= */
+
+/* BUTTON HOVER */
+
+.primary-button,
+.secondary-button,
+.order-button,
+.go-to-cart-button {
+  position: relative;
+  overflow: hidden;
+  transition:
+    transform 0.3s ease,
+    box-shadow 0.3s ease;
+}
+
+.primary-button:hover,
+.secondary-button:hover,
+.order-button:hover,
+.go-to-cart-button:hover {
+  transform: translateY(-3px);
+  box-shadow: 0 8px 20px rgba(70, 50, 40, 0.12);
+}
+
+
+/* Tiny light sweep */
+
+.primary-button::after,
+.secondary-button::after,
+.order-button::after,
+.go-to-cart-button::after {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: -120%;
+  width: 70%;
+  height: 100%;
+  background: linear-gradient(
+    90deg,
+    transparent,
+    rgba(255, 255, 255, 0.25),
+    transparent
+  );
+  transform: skewX(-18deg);
+  transition: left 0.55s ease;
+}
+
+.primary-button:hover::after,
+.secondary-button:hover::after,
+.order-button:hover::after,
+.go-to-cart-button:hover::after {
+  left: 140%;
+}
+
+
+/* Button press */
+
+.primary-button:active,
+.secondary-button:active,
+.order-button:active,
+.go-to-cart-button:active {
+  transform: translateY(0) scale(0.97);
+}
+
+/* =========================================
+   SIZE BUTTON MICRO INTERACTION
+========================================= */
+
+.size-option {
+  transition:
+    transform 0.2s ease,
+    background 0.2s ease,
+    border-color 0.2s ease,
+    box-shadow 0.2s ease;
+}
+
+.size-option:hover {
+  transform: translateY(-2px);
+}
+
+.size-option:active {
+  transform: scale(0.94);
+}
+
+
+/* Selected size */
+
+.size-option.selected {
+  animation: sizePop 0.28s ease-out;
+}
+
+@keyframes sizePop {
+  0% {
+    transform: scale(0.9);
+  }
+
+  65% {
+    transform: scale(1.06);
+  }
+
+  100% {
+    transform: scale(1);
+  }
+}
+
+/* =========================================
+   CART COUNT
+========================================= */
+
+.cart-count {
+  display: inline-block;
+}
+
+.cart-count {
+  animation: cartPop 0.35s ease-out;
+}
+
+@keyframes cartPop {
+  0% {
+    transform: scale(0.7);
+    opacity: 0;
+  }
+
+  60% {
+    transform: scale(1.15);
+  }
+
+  100% {
+    transform: scale(1);
+    opacity: 1;
+  }
+}
+
+/* =========================================
+   SUCCESS CHECK
+========================================= */
+
+.success-mark {
+  animation: successPop 0.65s cubic-bezier(0.17, 0.67, 0.35, 1.3) both;
+}
+
+@keyframes successPop {
+  0% {
+    opacity: 0;
+    transform: scale(0.5) rotate(-8deg);
+  }
+
+  65% {
+    opacity: 1;
+    transform: scale(1.08) rotate(2deg);
+  }
+
+  100% {
+    opacity: 1;
+    transform: scale(1) rotate(0);
+  }
+}
+
+/* =========================================
+   ITLU SREE — HANDMADE LITTLE DETAILS
+========================================= */
+
+/* Soft paper grain across the page */
+
+.site,
+.custom-page,
+.order-page,
+.cart-page,
+.custom-success,
+.order-success {
+  position: relative;
+}
+
+.site::before,
+.custom-page::before,
+.order-page::before,
+.cart-page::before,
+.custom-success::before,
+.order-success::before {
+  content: "";
+  position: fixed;
+  inset: 0;
+  pointer-events: none;
+  z-index: 50;
+  opacity: 0.025;
+
+  background-image:
+    radial-gradient(
+      circle at 20% 30%,
+      #332a24 0.7px,
+      transparent 0.8px
+    ),
+    radial-gradient(
+      circle at 70% 60%,
+      #332a24 0.6px,
+      transparent 0.7px
+    );
+
+  background-size: 13px 13px, 17px 17px;
+}
+
+
+/* Tiny sparkle beside section eyebrows */
+
+.statement .eyebrow::after,
+.custom-section .eyebrow::after,
+.orders-section .eyebrow::after {
+  content: "✦";
+  display: inline-block;
+  margin-left: 8px;
+  color: #b96f52;
+  font-size: 10px;
+
+  animation: tinySparkle 3s ease-in-out infinite;
+}
+
+@keyframes tinySparkle {
+  0%,
+  100% {
+    opacity: 0.45;
+    transform: scale(0.85) rotate(0deg);
+  }
+
+  50% {
+    opacity: 1;
+    transform: scale(1.15) rotate(12deg);
+  }
+}
+
+
+/* Little handmade feeling on the custom mark */
+
+.custom-mark {
+  position: relative;
+}
+
+.custom-mark::after {
+  content: "✿";
+  position: absolute;
+  right: -18px;
+  top: -18px;
+
+  font-size: 18px;
+  color: #b96f52;
+  opacity: 0.7;
+
+  animation: flowerFloat 4s ease-in-out infinite;
+}
+
+@keyframes flowerFloat {
+  0%,
+  100% {
+    transform: translateY(0) rotate(-5deg);
+  }
+
+  50% {
+    transform: translateY(-5px) rotate(8deg);
+  }
+}
+
+
+/* Keep it calm on small screens */
+
+@media (max-width: 600px) {
+  .custom-mark::after {
+    right: -10px;
+    top: -12px;
+    font-size: 14px;
+  }
+}
+
+
+/* Respect reduced motion */
+
+@media (prefers-reduced-motion: reduce) {
+  .statement .eyebrow::after,
+  .custom-section .eyebrow::after,
+  .orders-section .eyebrow::after,
+  .custom-mark::after {
+    animation: none;
+  }
+}
+
+/* =========================================
+   ITLU SREE — CATALOGUE GALLERY REVEAL
+========================================= */
+
+.catalogue-reveal {
+  opacity: 0;
+  transform: translateY(24px);
+  filter: blur(3px);
+
+  animation: catalogueCardIn 0.7s
+    cubic-bezier(0.2, 0.7, 0.2, 1)
+    var(--delay)
+    forwards;
+}
+
+@keyframes catalogueCardIn {
+  from {
+    opacity: 0;
+    transform: translateY(24px);
+    filter: blur(3px);
+  }
+
+  to {
+    opacity: 1;
+    transform: translateY(0);
+    filter: blur(0);
+  }
+}
+
+
+/* Keep the cards themselves interactive */
+
+.catalogue-reveal .product-card {
+  transition:
+    transform 0.3s ease,
+    opacity 0.3s ease;
+}
+
+.catalogue-reveal .product-card:hover {
+  transform: translateY(-5px);
+}
+
+
+/* Slightly slower image movement */
+
+.catalogue-reveal .product-image img {
+  transition:
+    transform 0.5s cubic-bezier(0.2, 0.7, 0.2, 1);
+}
+
+.catalogue-reveal .product-card:hover .product-image img {
+  transform: scale(1.035);
+}
+
+
+/* Don't animate forever on reduced-motion devices */
+
+@media (prefers-reduced-motion: reduce) {
+  .catalogue-reveal {
+    opacity: 1;
+    transform: none;
+    filter: none;
+    animation: none;
+  }
+}
