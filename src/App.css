@@ -2263,7 +2263,7 @@ a {
 }
 
 .advance-checkbox input:checked + .custom-checkbox {
-  border-color: #332a24;
+  border-color: #c96624;
   background: #332a24;
 }
 
