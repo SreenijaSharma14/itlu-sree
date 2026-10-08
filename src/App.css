@@ -4706,3 +4706,7 @@ a {
     animation: none;
   }
 }
+
+.success-mark {
+  color: #ffffff !important;
+}
