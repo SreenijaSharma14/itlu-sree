@@ -1,12 +1,28 @@
+
 import { useState } from "react";
-import { Link, useNavigate } from "react-router-dom";
+import {
+  Link,
+  useNavigate,
+  useSearchParams,
+} from "react-router-dom";
 import { useAuth } from "../context/AuthContext";
 
 function Auth() {
   const navigate = useNavigate();
+  const [searchParams] = useSearchParams();
   const { login, register } = useAuth();
 
+  const requestedRedirect =
+    searchParams.get("redirect") || "/";
+
+  const safeRedirect =
+    requestedRedirect.startsWith("/") &&
+    !requestedRedirect.startsWith("//")
+      ? requestedRedirect
+      : "/";
+
   const [mode, setMode] = useState("login");
+
   const [formData, setFormData] = useState({
     name: "",
     phone: "",
@@ -46,8 +62,13 @@ function Auth() {
 
     try {
       if (mode === "register") {
-        if (formData.password !== formData.confirmPassword) {
-          throw new Error("Passwords do not match.");
+        if (
+          formData.password !==
+          formData.confirmPassword
+        ) {
+          throw new Error(
+            "Passwords do not match."
+          );
         }
 
         if (formData.password.length < 6) {
@@ -63,20 +84,24 @@ function Auth() {
           password: formData.password,
         });
 
-        if (!data.session) {
-          setMessage(
-            "Account created! Please check your email to confirm your account."
-          );
-        } else {
-          navigate("/");
-        }
+       if (!data.session) {
+  setMessage(
+    "Account created! Please check your email to confirm your account."
+  );
+} else {
+  navigate("/", {
+    replace: true,
+  });
+}
       } else {
         await login(
           formData.email,
           formData.password
         );
 
-        navigate("/");
+        navigate(safeRedirect, {
+          replace: true,
+        });
       }
     } catch (err) {
       setError(
@@ -91,7 +116,6 @@ function Auth() {
   return (
     <main className="auth-page">
       <div className="auth-container">
-
         <div className="auth-intro">
           <Link to="/" className="back-link">
             ← Back to home
@@ -125,7 +149,6 @@ function Auth() {
         </div>
 
         <div className="auth-card">
-
           <div className="auth-tabs">
             <button
               type="button"
@@ -156,7 +179,6 @@ function Auth() {
             className="auth-form"
             onSubmit={handleSubmit}
           >
-
             {mode === "register" && (
               <>
                 <div className="form-field">
@@ -288,7 +310,6 @@ function Auth() {
                 : "Login instead"}
             </button>
           </p>
-
         </div>
       </div>
     </main>

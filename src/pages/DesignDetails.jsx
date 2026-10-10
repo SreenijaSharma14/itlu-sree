@@ -1,10 +1,18 @@
 import { useState } from "react";
-import { Link, useParams } from "react-router-dom";
+import {
+  Link,
+  useNavigate,
+  useParams,
+} from "react-router-dom";
 import { useCart } from "../context/CartContext";
+import { useAuth } from "../context/AuthContext";
 import designs from "../data/designs";
 import sizeChart from "../data/sizeChart";
 
 function DesignDetails() {
+  const navigate = useNavigate();
+  const { user } = useAuth();
+
   const { id } = useParams();
 
   const { cart, addToCart } = useCart();
@@ -56,6 +64,11 @@ function DesignDetails() {
 
   const handleAddToCart = () => {
   if (!selectedSize) {
+    return;
+  }
+
+  if (!user) {
+    navigate("/auth?redirect=/cart");
     return;
   }
 
