@@ -8,7 +8,7 @@ const designs = [
     name: "Avengers Logo",
     characters: ["Avengers"],
     complexity: "Easy",
-    price: 500,
+    price: 600,
     image: "/designs/easy/AVE01.jpeg",
   },
   {
@@ -16,7 +16,7 @@ const designs = [
     name: "Captain America - Whatever It Takes",
     characters: ["Captain America"],
     complexity: "Easy",
-    price: 500,
+    price: 600,
     image: "/designs/easy/CAE01.jpeg",
   },
   {
@@ -24,7 +24,7 @@ const designs = [
     name: "Iron Man Helmet",
     characters: ["Iron Man"],
     complexity: "Easy",
-    price: 500,
+    price: 600,
     image: "/designs/easy/IME01.jpeg",
   },
   {
@@ -32,7 +32,7 @@ const designs = [
     name: "Spider-Man + Girl Selfie",
     characters: ["Spider-Man"],
     complexity: "Easy",
-    price: 500,
+    price: 600,
     image: "/designs/easy/SGE01.jpeg",
   },
   {
@@ -40,7 +40,7 @@ const designs = [
     name: "Spider-Man Logo - Great Power",
     characters: ["Spider-Man"],
     complexity: "Easy",
-    price: 500,
+    price: 600,
     image: "/designs/easy/SME01.jpeg",
   },
   {
@@ -48,7 +48,7 @@ const designs = [
     name: "Spider-Man Silhouette",
     characters: ["Spider-Man"],
     complexity: "Easy",
-    price: 500,
+    price: 600,
     image: "/designs/easy/SME02.jpeg",
   },
   {
@@ -56,7 +56,7 @@ const designs = [
     name: "Scarlet Witch - Multiverse of Madness",
     characters: ["Scarlet Witch"],
     complexity: "Easy",
-    price: 500,
+    price: 600,
     image: "/designs/easy/SWE01.jpeg",
   },
   {
@@ -64,7 +64,7 @@ const designs = [
     name: "Thor Logo",
     characters: ["Thor"],
     complexity: "Easy",
-    price: 500,
+    price: 600,
     image: "/designs/easy/THE01.jpeg",
   },
 
@@ -77,7 +77,7 @@ const designs = [
     name: "Captain America + Mjolnir",
     characters: ["Captain America"],
     complexity: "Medium",
-    price: 700,
+    price: 800,
     image: "/designs/medium/CAM01.jpeg",
   },
   {
@@ -85,7 +85,7 @@ const designs = [
     name: "Iron Man + Doctor Doom Split Face",
     characters: ["Iron Man", "Doctor Doom"],
     complexity: "Medium",
-    price: 700,
+    price: 800,
     image: "/designs/medium/DDM01.jpeg",
   },
   {
@@ -93,7 +93,7 @@ const designs = [
     name: "Eye of Agamotto",
     characters: ["Doctor Strange"],
     complexity: "Medium",
-    price: 700,
+    price: 800,
     image: "/designs/medium/DSM01.jpeg",
   },
   {
@@ -101,7 +101,7 @@ const designs = [
     name: "Iron Man + Spider-Man Fist Bump",
     characters: ["Iron Man", "Spider-Man"],
     complexity: "Medium",
-    price: 700,
+    price: 800,
     image: "/designs/medium/IMM01.jpeg",
   },
   {
@@ -109,7 +109,7 @@ const designs = [
     name: "Iron Man + Spider-Man Split Face",
     characters: ["Iron Man", "Spider-Man"],
     complexity: "Medium",
-    price: 700,
+    price: 800,
     image: "/designs/medium/IMM02.jpeg",
   },
   {
@@ -117,7 +117,7 @@ const designs = [
     name: "Iron Man Arc Reactor",
     characters: ["Iron Man"],
     complexity: "Medium",
-    price: 700,
+    price: 800,
     image: "/designs/medium/IMM03.jpeg",
   },
   {
@@ -125,7 +125,7 @@ const designs = [
     name: "Spider-Man + Spider-Gwen Hanging",
     characters: ["Spider-Man", "Spider-Gwen"],
     complexity: "Medium",
-    price: 700,
+    price: 800,
     image: "/designs/medium/SMM01.jpeg",
   },
   {
@@ -133,7 +133,7 @@ const designs = [
     name: "Spider-Man Portrait",
     characters: ["Spider-Man"],
     complexity: "Medium",
-    price: 700,
+    price: 800,
     image: "/designs/medium/SMM02.jpeg",
   },
   {
@@ -141,7 +141,7 @@ const designs = [
     name: "Scarlet Witch Portrait",
     characters: ["Scarlet Witch"],
     complexity: "Medium",
-    price: 700,
+    price: 800,
     image: "/designs/medium/SWM01.jpeg",
   },
   {
@@ -149,7 +149,7 @@ const designs = [
     name: "Scarlet Witch Full Body",
     characters: ["Scarlet Witch"],
     complexity: "Medium",
-    price: 700,
+    price: 800,
     image: "/designs/medium/SWM02.jpeg",
   },
 
@@ -162,7 +162,7 @@ const designs = [
     name: "Multi-Character Avengers Panels",
     characters: ["Avengers"],
     complexity: "Complex",
-    price: 900,
+    price: 1000,
     image: "/designs/complex/AVC01.jpeg",
   },
   {
@@ -170,7 +170,7 @@ const designs = [
     name: "Captain America - I Can Do This All Day",
     characters: ["Captain America"],
     complexity: "Complex",
-    price: 900,
+    price: 1000,
     image: "/designs/complex/CAC01.jpeg",
   },
   {
@@ -178,7 +178,7 @@ const designs = [
     name: "Doctor Doom Detailed Portrait",
     characters: ["Doctor Doom"],
     complexity: "Complex",
-    price: 900,
+    price: 1000,
     image: "/designs/complex/DDC01.jpeg",
   },
   {
@@ -186,7 +186,7 @@ const designs = [
     name: "Doctor Strange Detailed Line Art",
     characters: ["Doctor Strange"],
     complexity: "Complex",
-    price: 900,
+    price: 1000,
     image: "/designs/complex/DSC01.jpeg",
   },
   {
@@ -194,7 +194,7 @@ const designs = [
     name: "Spider-Man Action Poster",
     characters: ["Spider-Man"],
     complexity: "Complex",
-    price: 900,
+    price: 1000,
     image: "/designs/complex/SMC01.jpeg",
   },
   {
@@ -202,7 +202,7 @@ const designs = [
     name: "Thor Detailed Line Art",
     characters: ["Thor"],
     complexity: "Complex",
-    price: 900,
+    price: 1000,
     image: "/designs/complex/THC01.jpeg",
   },
   {
@@ -210,7 +210,7 @@ const designs = [
     name: "Thor - Mjolnir with Lightning",
     characters: ["Thor"],
     complexity: "Complex",
-    price: 900,
+    price: 1000,
     image: "/designs/complex/THC02.jpeg",
   },
 ];

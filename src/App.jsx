@@ -14,6 +14,8 @@ import { useState } from "react";
 import MyOrders from "./pages/MyOrders";
 import AdminOrders from "./pages/AdminOrders";
 import useSiteAnimations from "./useSiteAnimations";
+import Account from "./pages/Account";
+
 
 function Home() {
   const { totalItems } = useCart();
@@ -55,9 +57,14 @@ function Home() {
                       ? profile.full_name.split(" ")[0]
                       : "there"} ♡
                   </p>
-                  <button type="button" className="account-menu-item">
+                
+                  <Link
+                    to="/account"
+                    className="account-menu-item"
+                    onClick={() => setAccountOpen(false)}
+                  >
                     My Account
-                  </button>
+                  </Link>
                   <Link
                     to="/my-orders"
                     className="account-menu-item"
@@ -168,6 +175,7 @@ function App() {
           <Route path="/custom" element={<CustomDesign />} />
           <Route path="/cart" element={<Cart />} />
           <Route path="/auth" element={<Auth />} />
+          <Route path="/account" element={<Account />} />
           <Route path="/admin/orders" element={<AdminOrders />} />
         </Routes>
       </BrowserRouter>
