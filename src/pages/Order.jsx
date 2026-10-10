@@ -1,7 +1,8 @@
 import { useState } from "react";
 import { Link } from "react-router-dom";
 import { useCart } from "../context/CartContext";
-
+import { useAuth } from "../context/AuthContext";
+import { supabase } from "../lib/supabaseClient";
 function Order() {
   const {
     cart,
@@ -10,13 +11,12 @@ function Order() {
     clearCart,
   } = useCart();
 
+  const { user, profile } = useAuth();
+
   const [formData, setFormData] = useState({
-    name: "",
-    phone: "",
-    email: "",
-    address: "",
-    note: "",
-  });
+  address: "",
+  note: "",
+});
 
   const [advanceAccepted, setAdvanceAccepted] =
     useState(false);
@@ -30,6 +30,9 @@ function Order() {
   const [submittedOrder, setSubmittedOrder] =
   useState(null);
 
+  const [submitError, setSubmitError] = useState("");
+  const [submitting, setSubmitting] = useState(false);
+
   const handleChange = (event) => {
     const { name, value } = event.target;
 
@@ -39,25 +42,102 @@ function Order() {
     }));
   };
 
-  const handleSubmit = (event) => {
+  const handleSubmit = async (event) => {
   event.preventDefault();
+
+  setSubmitError("");
+
+  if (!user) {
+    setSubmitError(
+      "Please log in before placing an order."
+    );
+    return;
+  }
+
+  setSubmitting(true);
 
   const newOrderId =
     `ITLU-${Date.now().toString().slice(-6)}`;
 
-  const orderSnapshot = {
-    items: [...cart],
-    totalItems,
-    totalPrice,
-    advanceAmount: totalPrice * 0.5,
-    remainingAmount: totalPrice * 0.5,
-  };
+  const advanceAmount = totalPrice * 0.5;
+  const remainingAmount = totalPrice - advanceAmount;
 
-  setOrderId(newOrderId);
-  setSubmittedOrder(orderSnapshot);
-  setSubmitted(true);
+  try {
+    // 1. Create the main order
+    const { data: order, error: orderError } =
+      await supabase
+        .from("orders")
+        .insert({
+          user_id: user.id,
+          order_number: newOrderId,
 
-  clearCart();
+          customer_name: profile?.full_name || "",
+customer_phone: profile?.phone || "",
+customer_email: user.email,
+
+          delivery_address: formData.address,
+          note: formData.note || null,
+
+          total_amount: totalPrice,
+          advance_amount: advanceAmount,
+          remaining_amount: remainingAmount,
+
+          advance_accepted: advanceAccepted,
+          status: "pending",
+        })
+        .select()
+        .single();
+
+    if (orderError) {
+      throw orderError;
+    }
+
+    // 2. Save every cart item belonging to this order
+    const orderItems = cart.map((item) => ({
+      order_id: order.id,
+
+      design_id: item.id,
+      design_name: item.name,
+
+      size: item.size,
+      quantity: item.quantity,
+
+      unit_price: item.price,
+    }));
+
+    const { error: itemsError } =
+      await supabase
+        .from("order_items")
+        .insert(orderItems);
+
+    if (itemsError) {
+      throw itemsError;
+    }
+
+    // 3. Keep the existing success-page behaviour
+    const orderSnapshot = {
+      items: [...cart],
+      totalItems,
+      totalPrice,
+      advanceAmount,
+      remainingAmount,
+    };
+
+    setOrderId(newOrderId);
+    setSubmittedOrder(orderSnapshot);
+    setSubmitted(true);
+
+    clearCart();
+  } catch (error) {
+    console.error("Order submission error:", error);
+
+    setSubmitError(
+      error.message ||
+        "Something went wrong while submitting your order. Please try again."
+    );
+  } finally {
+    setSubmitting(false);
+  }
 };
 
   if (submitted) {
@@ -242,197 +322,126 @@ function Order() {
 
       <div className="order-layout">
 
-        {/* FORM */}
+      {/* FORM */}
 
-        <form
-          className="order-form"
-          onSubmit={handleSubmit}
-        >
+<form
+  className="order-form"
+  onSubmit={handleSubmit}
+>
 
-          <section className="form-section">
+  {/* DELIVERY DETAILS */}
 
-            <div className="form-section-heading">
+  <section className="form-section">
 
-              <span>
-                01
-              </span>
+    <div className="form-section-heading">
+      <span>01</span>
 
-              <h2>
-                Your details
-              </h2>
+      <h2>
+        Delivery details
+      </h2>
+    </div>
 
-            </div>
+    <div className="form-field">
 
-            <div className="form-grid">
+      <label htmlFor="address">
+        Delivery address
+      </label>
 
-              <div className="form-field">
+      <textarea
+        id="address"
+        name="address"
+        value={formData.address}
+        onChange={handleChange}
+        placeholder="House / flat, street, area, city, state, PIN code"
+        rows="5"
+        required
+      />
 
-                <label htmlFor="name">
-                  Full name
-                </label>
+    </div>
 
-                <input
-                  id="name"
-                  name="name"
-                  type="text"
-                  value={formData.name}
-                  onChange={handleChange}
-                  placeholder="Your name"
-                  required
-                />
+    <div className="form-field">
 
-              </div>
+      <label htmlFor="note">
+        Special note
+        <span>Optional</span>
+      </label>
 
-              <div className="form-field">
+      <textarea
+        id="note"
+        name="note"
+        value={formData.note}
+        onChange={handleChange}
+        placeholder="Anything you'd like us to know?"
+        rows="4"
+      />
 
-                <label htmlFor="phone">
-                  Phone number
-                </label>
+    </div>
 
-                <input
-                  id="phone"
-                  name="phone"
-                  type="tel"
-                  value={formData.phone}
-                  onChange={handleChange}
-                  placeholder="Your phone number"
-                  required
-                />
+  </section>
 
-              </div>
 
-            </div>
+  {/* ADVANCE */}
 
-            <div className="form-field">
+  <section className="form-section">
 
-              <label htmlFor="email">
-                Email address
-              </label>
+    <div className="form-section-heading">
+      <span>02</span>
 
-              <input
-                id="email"
-                name="email"
-                type="email"
-                value={formData.email}
-                onChange={handleChange}
-                placeholder="you@example.com"
-                required
-              />
+      <h2>
+        Before you submit
+      </h2>
+    </div>
 
-            </div>
+    <label className="advance-checkbox">
 
-          </section>
+      <input
+        type="checkbox"
+        checked={advanceAccepted}
+        onChange={(event) =>
+          setAdvanceAccepted(
+            event.target.checked
+          )
+        }
+      />
 
-          {/* ADDRESS */}
+      <span className="custom-checkbox"></span>
 
-          <section className="form-section">
+      <span>
+        I understand that a <strong>50%
+        advance</strong> is required once
+        my order is confirmed.
+      </span>
 
-            <div className="form-section-heading">
+    </label>
 
-              <span>
-                02
-              </span>
+    <p className="advance-note">
+      No payment is required while
+      submitting this request. We'll
+      contact you to confirm the order
+      and advance payment details.
+    </p>
 
-              <h2>
-                Delivery details
-              </h2>
+  </section>
 
-            </div>
 
-            <div className="form-field">
+  {submitError && (
+    <p className="auth-message auth-error">
+      {submitError}
+    </p>
+  )}
 
-              <label htmlFor="address">
-                Delivery address
-              </label>
 
-              <textarea
-                id="address"
-                name="address"
-                value={formData.address}
-                onChange={handleChange}
-                placeholder="House / flat, street, area, city, state, PIN code"
-                rows="5"
-                required
-              />
+  <button
+    type="submit"
+    className="primary-button submit-order-button"
+    disabled={!advanceAccepted || submitting}
+  >
+    {submitting
+      ? "Submitting..."
+      : "Submit order request"}
+  </button>
 
-            </div>
-
-            <div className="form-field">
-
-              <label htmlFor="note">
-                Special note
-                <span>Optional</span>
-              </label>
-
-              <textarea
-                id="note"
-                name="note"
-                value={formData.note}
-                onChange={handleChange}
-                placeholder="Anything you'd like us to know?"
-                rows="4"
-              />
-
-            </div>
-
-          </section>
-
-          {/* ADVANCE */}
-
-          <section className="form-section">
-
-            <div className="form-section-heading">
-
-              <span>
-                03
-              </span>
-
-              <h2>
-                Before you submit
-              </h2>
-
-            </div>
-
-            <label className="advance-checkbox">
-
-              <input
-                type="checkbox"
-                checked={advanceAccepted}
-                onChange={(event) =>
-                  setAdvanceAccepted(
-                    event.target.checked
-                  )
-                }
-              />
-
-              <span className="custom-checkbox"></span>
-
-              <span>
-                I understand that a <strong>50%
-                advance</strong> is required once
-                my order is confirmed.
-              </span>
-
-            </label>
-
-            <p className="advance-note">
-              No payment is required while
-              submitting this request. We'll
-              contact you to confirm the order
-              and advance payment details.
-            </p>
-
-          </section>
-
-          <button
-            type="submit"
-            className="primary-button submit-order-button"
-            disabled={!advanceAccepted}
-          >
-            Submit order request
-          </button>
-
-        </form>
+</form>
 
         {/* ORDER SUMMARY */}
 
