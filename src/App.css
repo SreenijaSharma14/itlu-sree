@@ -6619,3 +6619,34 @@ a {
     max-height: 64px;
   }
 }
+
+.story-logo {
+  display: block;
+  width: 32px;
+  height: 32px;
+  object-fit: contain;
+  margin: 0 auto 12px;
+}
+
+@media (max-width: 600px) {
+  .story-logo {
+    width: 28px;
+    height: 28px;
+  }
+}
+
+.footer-logo {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 12px;
+}
+
+.footer-logo img {
+  display: block;
+  width: 48px;
+  height: 48px;
+  max-width: 100%;
+  object-fit: contain;
+  flex-shrink: 0;
+}
