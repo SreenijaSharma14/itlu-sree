@@ -1,15 +1,13 @@
-const designs = [
-  // =========================
-  // EASY
-  // =========================
 
+const designs = [
   {
     id: "AVE01",
     name: "Avengers Logo",
     characters: ["Avengers"],
     complexity: "Easy",
     price: 600,
-    image: "/designs/easy/AVE01.jpeg",
+    image: "/images/AvengersCards/1.png",
+    detailImage: "/images/AvengersShirts/1.png",
   },
   {
     id: "CAE01",
@@ -17,7 +15,8 @@ const designs = [
     characters: ["Captain America"],
     complexity: "Easy",
     price: 600,
-    image: "/designs/easy/CAE01.jpeg",
+    image: "/images/AvengersCards/2.png",
+    detailImage: "/images/AvengersShirts/2.png",
   },
   {
     id: "IME01",
@@ -25,7 +24,8 @@ const designs = [
     characters: ["Iron Man"],
     complexity: "Easy",
     price: 600,
-    image: "/designs/easy/IME01.jpeg",
+    image: "/images/AvengersCards/3.png",
+    detailImage: "/images/AvengersShirts/3.png",
   },
   {
     id: "SGE01",
@@ -33,7 +33,8 @@ const designs = [
     characters: ["Spider-Man"],
     complexity: "Easy",
     price: 600,
-    image: "/designs/easy/SGE01.jpeg",
+    image: "/images/AvengersCards/4.png",
+    detailImage: "/images/AvengersShirts/4.png",
   },
   {
     id: "SME01",
@@ -41,7 +42,8 @@ const designs = [
     characters: ["Spider-Man"],
     complexity: "Easy",
     price: 600,
-    image: "/designs/easy/SME01.jpeg",
+    image: "/images/AvengersCards/5.png",
+    detailImage: "/images/AvengersShirts/5.png",
   },
   {
     id: "SME02",
@@ -49,7 +51,8 @@ const designs = [
     characters: ["Spider-Man"],
     complexity: "Easy",
     price: 600,
-    image: "/designs/easy/SME02.jpeg",
+    image: "/images/AvengersCards/6.png",
+    detailImage: "/images/AvengersShirts/6.png",
   },
   {
     id: "SWE01",
@@ -57,7 +60,8 @@ const designs = [
     characters: ["Scarlet Witch"],
     complexity: "Easy",
     price: 600,
-    image: "/designs/easy/SWE01.jpeg",
+    image: "/images/AvengersCards/7.png",
+    detailImage: "/images/AvengersShirts/7.png",
   },
   {
     id: "THE01",
@@ -65,20 +69,17 @@ const designs = [
     characters: ["Thor"],
     complexity: "Easy",
     price: 600,
-    image: "/designs/easy/THE01.jpeg",
+    image: "/images/AvengersCards/8.png",
+    detailImage: "/images/AvengersShirts/8.png",
   },
-
-  // =========================
-  // MEDIUM
-  // =========================
-
   {
     id: "CAM01",
     name: "Captain America + Mjolnir",
     characters: ["Captain America"],
     complexity: "Medium",
     price: 800,
-    image: "/designs/medium/CAM01.jpeg",
+    image: "/images/AvengersCards/9.png",
+    detailImage: "/images/AvengersShirts/9.png",
   },
   {
     id: "DDM01",
@@ -86,7 +87,8 @@ const designs = [
     characters: ["Iron Man", "Doctor Doom"],
     complexity: "Medium",
     price: 800,
-    image: "/designs/medium/DDM01.jpeg",
+    image: "/images/AvengersCards/10.png",
+    detailImage: "/images/AvengersShirts/10.png",
   },
   {
     id: "DSM01",
@@ -94,7 +96,8 @@ const designs = [
     characters: ["Doctor Strange"],
     complexity: "Medium",
     price: 800,
-    image: "/designs/medium/DSM01.jpeg",
+    image: "/images/AvengersCards/11.png",
+    detailImage: "/images/AvengersShirts/11.png",
   },
   {
     id: "IMM01",
@@ -102,7 +105,8 @@ const designs = [
     characters: ["Iron Man", "Spider-Man"],
     complexity: "Medium",
     price: 800,
-    image: "/designs/medium/IMM01.jpeg",
+    image: "/images/AvengersCards/12.png",
+    detailImage: "/images/AvengersShirts/12.png",
   },
   {
     id: "IMM02",
@@ -110,7 +114,8 @@ const designs = [
     characters: ["Iron Man", "Spider-Man"],
     complexity: "Medium",
     price: 800,
-    image: "/designs/medium/IMM02.jpeg",
+    image: "/images/AvengersCards/13.png",
+    detailImage: "/images/AvengersShirts/13.png",
   },
   {
     id: "IMM03",
@@ -118,7 +123,8 @@ const designs = [
     characters: ["Iron Man"],
     complexity: "Medium",
     price: 800,
-    image: "/designs/medium/IMM03.jpeg",
+    image: "/images/AvengersCards/14.png",
+    detailImage: "/images/AvengersShirts/14.png",
   },
   {
     id: "SMM01",
@@ -126,7 +132,8 @@ const designs = [
     characters: ["Spider-Man", "Spider-Gwen"],
     complexity: "Medium",
     price: 800,
-    image: "/designs/medium/SMM01.jpeg",
+    image: "/images/AvengersCards/15.png",
+    detailImage: "/images/AvengersShirts/15.png",
   },
   {
     id: "SMM02",
@@ -134,7 +141,8 @@ const designs = [
     characters: ["Spider-Man"],
     complexity: "Medium",
     price: 800,
-    image: "/designs/medium/SMM02.jpeg",
+    image: "/images/AvengersCards/16.png",
+    detailImage: "/images/AvengersShirts/16.png",
   },
   {
     id: "SWM01",
@@ -142,7 +150,8 @@ const designs = [
     characters: ["Scarlet Witch"],
     complexity: "Medium",
     price: 800,
-    image: "/designs/medium/SWM01.jpeg",
+    image: "/images/AvengersCards/17.png",
+    detailImage: "/images/AvengersShirts/17.png",
   },
   {
     id: "SWM02",
@@ -150,20 +159,17 @@ const designs = [
     characters: ["Scarlet Witch"],
     complexity: "Medium",
     price: 800,
-    image: "/designs/medium/SWM02.jpeg",
+    image: "/images/AvengersCards/18.png",
+    detailImage: "/images/AvengersShirts/18.png",
   },
-
-  // =========================
-  // COMPLEX
-  // =========================
-
   {
     id: "AVC01",
     name: "Multi-Character Avengers Panels",
     characters: ["Avengers"],
     complexity: "Complex",
     price: 1000,
-    image: "/designs/complex/AVC01.jpeg",
+    image: "/images/AvengersCards/19.png",
+    detailImage: "/images/AvengersShirts/19.png",
   },
   {
     id: "CAC01",
@@ -171,7 +177,8 @@ const designs = [
     characters: ["Captain America"],
     complexity: "Complex",
     price: 1000,
-    image: "/designs/complex/CAC01.jpeg",
+    image: "/images/AvengersCards/20.png",
+    detailImage: "/images/AvengersShirts/20.png",
   },
   {
     id: "DDC01",
@@ -179,7 +186,8 @@ const designs = [
     characters: ["Doctor Doom"],
     complexity: "Complex",
     price: 1000,
-    image: "/designs/complex/DDC01.jpeg",
+    image: "/images/AvengersCards/21.png",
+    detailImage: "/images/AvengersShirts/21.png",
   },
   {
     id: "DSC01",
@@ -187,7 +195,8 @@ const designs = [
     characters: ["Doctor Strange"],
     complexity: "Complex",
     price: 1000,
-    image: "/designs/complex/DSC01.jpeg",
+    image: "/images/AvengersCards/22.png",
+    detailImage: "/images/AvengersShirts/22.png",
   },
   {
     id: "SMC01",
@@ -195,7 +204,8 @@ const designs = [
     characters: ["Spider-Man"],
     complexity: "Complex",
     price: 1000,
-    image: "/designs/complex/SMC01.jpeg",
+    image: "/images/AvengersCards/23.png",
+    detailImage: "/images/AvengersShirts/23.png",
   },
   {
     id: "THC01",
@@ -203,15 +213,8 @@ const designs = [
     characters: ["Thor"],
     complexity: "Complex",
     price: 1000,
-    image: "/designs/complex/THC01.jpeg",
-  },
-  {
-    id: "THC02",
-    name: "Thor - Mjolnir with Lightning",
-    characters: ["Thor"],
-    complexity: "Complex",
-    price: 1000,
-    image: "/designs/complex/THC02.jpeg",
+    image: "/images/AvengersCards/24.png",
+    detailImage: "/images/AvengersShirts/24.png",
   },
 ];
 

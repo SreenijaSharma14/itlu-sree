@@ -67,7 +67,10 @@ function Home() {
     <div className="site">
       <header className="navbar">
         <Link to="/" className="logo">
-          itlu sree
+          <img
+            src="/images/ItluSreelogo.png"
+            alt="itlu sree"
+          />
         </Link>
 
         <nav className="nav-links">
@@ -83,9 +86,7 @@ function Home() {
                 type="button"
                 className="nav-account"
                 onClick={() =>
-                  setAccountOpen(
-                    (current) => !current
-                  )
+                  setAccountOpen((current) => !current)
                 }
               >
                 {profile?.full_name
@@ -112,9 +113,7 @@ function Home() {
                   <Link
                     to="/account"
                     className="account-menu-item"
-                    onClick={() =>
-                      setAccountOpen(false)
-                    }
+                    onClick={() => setAccountOpen(false)}
                   >
                     My Account
                   </Link>
@@ -122,9 +121,7 @@ function Home() {
                   <Link
                     to="/my-orders"
                     className="account-menu-item"
-                    onClick={() =>
-                      setAccountOpen(false)
-                    }
+                    onClick={() => setAccountOpen(false)}
                   >
                     My Orders
                   </Link>
@@ -143,10 +140,7 @@ function Home() {
               )}
             </div>
           ) : (
-            <Link
-              to="/auth"
-              className="nav-account"
-            >
+            <Link to="/auth" className="nav-account">
               Login
             </Link>
           )}
@@ -196,9 +190,11 @@ function Home() {
               <div className="sun"></div>
               <div className="mountain mountain-one"></div>
               <div className="mountain mountain-two"></div>
+
               <div className="flower flower-one">
                 ✿
               </div>
+
               <div className="flower flower-two">
                 ✿
               </div>
@@ -217,21 +213,26 @@ function Home() {
           id="about"
           data-about-section
         >
-          <p className="eyebrow">
-            A LITTLE ABOUT ITLU SREE
-          </p>
+          <p className="eyebrow">OUR STORY</p>
+
+          <img
+            src="/images/ItluSreeLogoSwan.png"
+            alt=""
+            className="story-logo"
+          />
 
           <h2>
-            Not mass produced.
+            Every piece has
             <br />
-            <span>Just painted.</span>
+            <span>a little story.</span>
           </h2>
 
           <p>
-            Every piece is painted by hand,
-            which means tiny differences,
-            little imperfections and a whole
-            lot of personality.
+            Itlu Sree is a little space for creativity,
+            colour and self-expression. Each T-shirt is
+            hand-painted with care, making every piece
+            feel personal and unique. No mass production,
+            just art made by hand and worn with love.
           </p>
         </section>
 
@@ -259,7 +260,10 @@ function Home() {
 
       <footer className="footer">
         <div className="footer-logo">
-          itlu sree
+          <img
+            src="/images/ItluSreeLogoSwan.png"
+            alt="itlu sree swan logo"
+          />
         </div>
 
         <p>
@@ -269,6 +273,7 @@ function Home() {
         <div className="footer-links">
           <a href="#home">Home</a>
           <a href="#collection">Collection</a>
+          <a href="#about">Our Story</a>
         </div>
       </footer>
     </div>

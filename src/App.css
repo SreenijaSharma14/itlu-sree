@@ -6593,3 +6593,29 @@ a {
   }
 }
 
+
+/* Header logo */
+.navbar .logo {
+  display: flex;
+  align-items: center;
+  justify-content: flex-start;
+  flex: 0 0 auto;
+  line-height: 0;
+}
+
+.navbar .logo img {
+  display: block;
+  width: clamp(200px, 23vw, 270px);
+  max-height: 90px;
+  height: auto;
+  object-fit: contain;
+  object-position: left center;
+}
+
+/* Mobile header logo */
+@media (max-width: 600px) {
+  .navbar .logo img {
+    width: 165px;
+    max-height: 64px;
+  }
+}
