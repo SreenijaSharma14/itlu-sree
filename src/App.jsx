@@ -33,8 +33,12 @@ import useSiteAnimations from "./useSiteAnimations";
 
 // Protect routes that require login.
 function ProtectedRoute({ children }) {
-  const { user } = useAuth();
+  const { user, loading } = useAuth();
   const location = useLocation();
+
+  if (loading) {
+    return <div role="status">Loading...</div>;
+  }
 
   if (!user) {
     const redirect =
