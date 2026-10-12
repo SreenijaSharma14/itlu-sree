@@ -29,6 +29,9 @@ function DesignDetails() {
   const design = designs.find(
     (item) => item.id === id
   );
+  const designIndex = designs.findIndex(
+    (item) => item.id === id
+  );
 
   if (!design) {
     return (
@@ -111,11 +114,21 @@ function DesignDetails() {
       </Link>
 
       <div className="details-container">
-        <div className="details-image">
-          <img
-            src={design.image}
-            alt={design.name}
-          />
+        <div className="details-images">
+          <figure className="details-image">
+            <img
+              src={design.image}
+              alt={`${design.name} catalogue image`}
+            />
+            <figcaption>Catalogue design</figcaption>
+          </figure>
+          <figure className="details-image">
+            <img
+              src={design.detailImage}
+              alt={`${design.name} shirt image`}
+            />
+            <figcaption>On the shirt</figcaption>
+          </figure>
         </div>
 
         <div className="details-info">
@@ -236,6 +249,25 @@ function DesignDetails() {
 </p>
         </div>
       </div>
+
+      <nav className="details-navigation" aria-label="Design navigation">
+        <button
+          type="button"
+          className="secondary-button"
+          onClick={() => navigate(`/design/${designs[designIndex - 1].id}`)}
+          disabled={designIndex === 0}
+        >
+          ← Previous
+        </button>
+        <button
+          type="button"
+          className="secondary-button"
+          onClick={() => navigate(`/design/${designs[designIndex + 1].id}`)}
+          disabled={designIndex === designs.length - 1}
+        >
+          Next →
+        </button>
+      </nav>
 
       {/* SIZE GUIDE */}
       {sizeGuideOpen && (
