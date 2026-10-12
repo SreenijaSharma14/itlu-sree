@@ -1,11 +1,5 @@
 const sizeChart = [
   {
-    name: "XXS",
-    chest: { inches: 32, cm: 81 },
-    length: { inches: 25, cm: 64 },
-    shoulder: { inches: 15, cm: 38 },
-  },
-  {
     name: "XS",
     chest: { inches: 34, cm: 86 },
     length: { inches: 26, cm: 66 },

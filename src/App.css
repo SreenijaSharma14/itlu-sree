@@ -1462,7 +1462,7 @@ a {
 }
 
 .product-card:hover {
-  transform: translateY(-5px);
+  transform: translateY(-3px);
 }
 
 
@@ -1714,7 +1714,7 @@ a {
 }
 
 .related-card:hover {
-  transform: translateY(-5px);
+  transform: translateY(-3px);
 }
 
 .related-image {
@@ -2260,6 +2260,36 @@ a {
 .form-field textarea:focus {
   border-color: #8a7e74;
   background: #fffaf2;
+}
+
+.password-input-wrap {
+  position: relative;
+}
+
+.password-input-wrap > input {
+  padding-right: 72px;
+}
+
+.password-visibility-toggle {
+  position: absolute;
+  top: 50%;
+  right: 12px;
+  transform: translateY(-50%);
+  border: 0;
+  padding: 6px;
+  background: transparent;
+  color: #766b61;
+  font-size: 12px;
+  cursor: pointer;
+}
+
+.password-visibility-toggle:hover {
+  color: #332a24;
+}
+
+.password-visibility-toggle:focus-visible {
+  outline: 2px solid #b96f52;
+  outline-offset: 2px;
 }
 
 /* ADVANCE CHECKBOX */
@@ -2848,11 +2878,13 @@ a {
 /* TABLE */
 
 .size-guide-table-wrapper {
-  overflow-x: auto;
+  max-width: 100%;
+  overflow-x: hidden;
 }
 
 .size-guide-table {
   width: 100%;
+  table-layout: fixed;
   border-collapse: collapse;
   font-size: 13px;
 }
@@ -2929,7 +2961,19 @@ a {
   }
 
   .size-guide-table {
-    min-width: 560px;
+    min-width: 0;
+    font-size: 11px;
+  }
+
+  .size-guide-table th {
+    padding: 8px 4px;
+    font-size: 9px;
+    letter-spacing: 0.2px;
+    overflow-wrap: anywhere;
+  }
+
+  .size-guide-table td {
+    padding: 10px 4px;
   }
 
   .size-guide-overlay {
@@ -3845,7 +3889,7 @@ a {
 @keyframes softRise {
   from {
     opacity: 0;
-    transform: translateY(24px);
+    transform: translateY(14px);
   }
 
   to {
@@ -3861,7 +3905,7 @@ a {
   }
 
   50% {
-    transform: translateY(-7px);
+    transform: translateY(-4px);
   }
 }
 
@@ -3875,7 +3919,7 @@ a {
 .hero-art {
   animation:
     softRise 0.9s ease-out 0.12s both,
-    softFloat 5s ease-in-out 1s infinite;
+    softFloat 6s ease-in-out 1s infinite;
 }
 
 
@@ -3915,7 +3959,7 @@ a {
 }
 
 .product-card:hover {
-  transform: translateY(-5px);
+  transform: translateY(-3px);
 }
 
 
@@ -3928,7 +3972,7 @@ a {
 }
 
 .related-card:hover {
-  transform: translateY(-5px);
+  transform: translateY(-3px);
 }
 
 
@@ -3941,7 +3985,7 @@ a {
 
 .product-card:hover .product-image img,
 .related-card:hover .related-image img {
-  transform: scale(1.035);
+  transform: scale(1.025);
 }
 
 
@@ -3968,8 +4012,8 @@ a {
 @keyframes itluReveal {
   from {
     opacity: 0;
-    transform: translateY(30px);
-    filter: blur(5px);
+    transform: translateY(18px);
+    filter: blur(2px);
   }
 
   to {
@@ -3982,7 +4026,7 @@ a {
 @keyframes itluSoftReveal {
   from {
     opacity: 0;
-    transform: translateY(18px);
+    transform: translateY(12px);
   }
 
   to {
@@ -3998,7 +4042,7 @@ a {
   }
 
   50% {
-    transform: translateY(-8px) rotate(1deg);
+    transform: translateY(-5px) rotate(0.5deg);
   }
 }
 
@@ -4009,18 +4053,18 @@ a {
   }
 
   50% {
-    transform: translateY(-4px);
+    transform: translateY(-2px);
   }
 }
 
 @keyframes itluPop {
   0% {
-    transform: scale(0.92);
+    transform: scale(0.96);
     opacity: 0;
   }
 
   70% {
-    transform: scale(1.04);
+    transform: scale(1.02);
   }
 
   100% {
@@ -4164,7 +4208,7 @@ a {
 
 .product-card:hover .product-image img,
 .related-card:hover .related-image img {
-  transform: scale(1.035);
+  transform: scale(1.025);
 }
 
 
@@ -4205,8 +4249,8 @@ a {
 
 .reveal {
   opacity: 0;
-  transform: translateY(35px);
-  filter: blur(4px);
+  transform: translateY(18px);
+  filter: blur(2px);
   transition:
     opacity 0.9s ease,
     transform 0.9s cubic-bezier(0.2, 0.7, 0.2, 1),
@@ -4288,8 +4332,8 @@ a {
 @keyframes heroTitle {
   from {
     opacity: 0;
-    transform: translateY(30px);
-    filter: blur(7px);
+    transform: translateY(20px);
+    filter: blur(3px);
   }
 
   to {
@@ -4302,8 +4346,8 @@ a {
 @keyframes heroArtIn {
   from {
     opacity: 0;
-    transform: translateY(25px) scale(0.96);
-    filter: blur(5px);
+    transform: translateY(16px) scale(0.98);
+    filter: blur(2px);
   }
 
   to {
@@ -4319,7 +4363,7 @@ a {
 ----------------------------------------- */
 
 .hero-art .art-card-main {
-  animation: artworkFloat 6s ease-in-out 1.7s infinite;
+  animation: artworkFloat 7s ease-in-out 1.7s infinite;
 }
 
 @keyframes artworkFloat {
@@ -4329,7 +4373,7 @@ a {
   }
 
   50% {
-    transform: translateY(-7px) rotate(0.5deg);
+    transform: translateY(-4px) rotate(0.3deg);
   }
 }
 
@@ -4347,7 +4391,7 @@ a {
 @keyframes noteAppear {
   from {
     opacity: 0;
-    transform: translateY(10px) scale(0.92);
+    transform: translateY(6px) scale(0.97);
   }
 
   to {
@@ -4363,7 +4407,7 @@ a {
   }
 
   50% {
-    transform: translateY(-4px) rotate(1deg);
+    transform: translateY(-2px) rotate(0.5deg);
   }
 }
 
@@ -4677,8 +4721,8 @@ a {
 
 .catalogue-reveal {
   opacity: 0;
-  transform: translateY(24px);
-  filter: blur(3px);
+  transform: translateY(12px);
+  filter: blur(1px);
 
   animation: catalogueCardIn 0.7s
     cubic-bezier(0.2, 0.7, 0.2, 1)
@@ -4689,8 +4733,8 @@ a {
 @keyframes catalogueCardIn {
   from {
     opacity: 0;
-    transform: translateY(24px);
-    filter: blur(3px);
+    transform: translateY(12px);
+    filter: blur(1px);
   }
 
   to {
@@ -4710,7 +4754,7 @@ a {
 }
 
 .catalogue-reveal .product-card:hover {
-  transform: translateY(-5px);
+  transform: translateY(-3px);
 }
 
 
@@ -4722,7 +4766,7 @@ a {
 }
 
 .catalogue-reveal .product-card:hover .product-image img {
-  transform: scale(1.035);
+  transform: scale(1.025);
 }
 
 
@@ -6635,8 +6679,8 @@ a {
 
 .navbar .logo img {
   display: block;
-  width: clamp(200px, 23vw, 270px);
-  max-height: 90px;
+  width: clamp(200px, 23vw, 280px);
+  max-height: 96px;
   height: auto;
   object-fit: contain;
   object-position: left center;
@@ -6646,22 +6690,23 @@ a {
 @media (max-width: 600px) {
   .navbar .logo img {
     width: 165px;
-    max-height: 64px;
+    max-height: 68px;
   }
 }
 
 .story-logo {
   display: block;
-  width: 32px;
-  height: 32px;
-  object-fit: contain;
-  margin: 0 auto 12px;
+  width: min(220px, 58vw);
+  height: 160px;
+  object-fit: cover;
+  object-position: center;
+  margin: 0 auto 16px;
 }
 
 @media (max-width: 600px) {
   .story-logo {
-    width: 28px;
-    height: 28px;
+    width: min(185px, 58vw);
+    height: 135px;
   }
 }
 

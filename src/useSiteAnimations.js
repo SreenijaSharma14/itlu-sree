@@ -24,8 +24,8 @@ export default function useSiteAnimations() {
 
       titleElements.forEach((title, index) => {
         gsap.to(title, {
-          y: -4,
-          duration: 3.5 + index * 0.3,
+          y: -2,
+          duration: 4.5 + index * 0.3,
           ease: "sine.inOut",
           yoyo: true,
           repeat: -1,

@@ -72,7 +72,7 @@ function Collection() {
           <div
             key={design.id}
             className="catalogue-reveal"
-            style={{ "--delay": `${index * 0.06}s` }}
+            style={{ "--delay": `${index * 0.025}s` }}
           >
             <ProductCard design={design} />
           </div>

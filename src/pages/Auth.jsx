@@ -22,6 +22,14 @@ function Auth() {
       : "/";
 
   const [mode, setMode] = useState("login");
+  const [showLoginPassword, setShowLoginPassword] =
+    useState(false);
+  const [showRegistrationPassword, setShowRegistrationPassword] =
+    useState(false);
+  const passwordVisible =
+    mode === "login"
+      ? showLoginPassword
+      : showRegistrationPassword;
 
   const [formData, setFormData] = useState({
     name: "",
@@ -236,15 +244,33 @@ function Auth() {
                 Password
               </label>
 
-              <input
-                id="auth-password"
-                name="password"
-                type="password"
-                placeholder="Your password"
-                value={formData.password}
-                onChange={handleChange}
-                required
-              />
+              <div className="password-input-wrap">
+                <input
+                  id="auth-password"
+                  name="password"
+                  type={passwordVisible ? "text" : "password"}
+                  placeholder="Your password"
+                  value={formData.password}
+                  onChange={handleChange}
+                  required
+                />
+                <button
+                  type="button"
+                  className="password-visibility-toggle"
+                  aria-controls="auth-password"
+                  aria-label={
+                    passwordVisible ? "Hide password" : "Show password"
+                  }
+                  aria-pressed={passwordVisible}
+                  onClick={() =>
+                    mode === "login"
+                      ? setShowLoginPassword((visible) => !visible)
+                      : setShowRegistrationPassword((visible) => !visible)
+                  }
+                >
+                  {passwordVisible ? "Hide" : "Show"}
+                </button>
+              </div>
             </div>
 
             {mode === "register" && (

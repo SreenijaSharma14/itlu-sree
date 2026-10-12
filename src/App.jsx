@@ -59,7 +59,7 @@ function ProtectedRoute({ children }) {
 
 function Home() {
   const { totalItems } = useCart();
-  const { user, profile, logout } = useAuth();
+  const { user, loading, profile, logout } = useAuth();
 
   const [accountOpen, setAccountOpen] =
     useState(false);
@@ -149,14 +149,16 @@ function Home() {
             </Link>
           )}
 
-          <Link to="/cart" className="nav-button">
-            Cart
-            {totalItems > 0 && (
-              <span className="cart-count">
-                · {totalItems}
-              </span>
-            )}
-          </Link>
+          {!loading && user && (
+            <Link to="/cart" className="nav-button">
+              Cart
+              {totalItems > 0 && (
+                <span className="cart-count">
+                  · {totalItems}
+                </span>
+              )}
+            </Link>
+          )}
         </div>
       </header>
 
@@ -221,7 +223,7 @@ function Home() {
 
           <img
             src="/images/ItluSreeLogoSwan.png"
-            alt=""
+            alt="itlu sree"
             className="story-logo"
           />
 

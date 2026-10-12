@@ -8,6 +8,7 @@ import { useCart } from "../context/CartContext";
 import { useAuth } from "../context/AuthContext";
 import designs from "../data/designs";
 import sizeChart from "../data/sizeChart";
+import sizeGuideMeasurements from "../data/sizeGuide";
 
 function DesignDetails() {
   const navigate = useNavigate();
@@ -310,42 +311,19 @@ function DesignDetails() {
                   <tr>
                     <th>Size</th>
 
-                    <th>
-                      Chest
-                      <small>in / cm</small>
-                    </th>
-
-                    <th>
-                      Length
-                      <small>in / cm</small>
-                    </th>
-
-                    <th>
-                      Shoulder
-                      <small>in / cm</small>
-                    </th>
+                    <th>Waist / Width</th>
+                    <th>Shoulder</th>
+                    <th>Length</th>
                   </tr>
                 </thead>
 
                 <tbody>
-                  {sizeChart.map((size) => (
-                    <tr key={size.name}>
-                      <td>{size.name}</td>
-
-                      <td>
-                        {size.chest.inches}" /{" "}
-                        {size.chest.cm}
-                      </td>
-
-                      <td>
-                        {size.length.inches}" /{" "}
-                        {size.length.cm}
-                      </td>
-
-                      <td>
-                        {size.shoulder.inches}" /{" "}
-                        {size.shoulder.cm}
-                      </td>
+                  {sizeGuideMeasurements.map((size) => (
+                    <tr key={size.size}>
+                      <td>{size.size}</td>
+                      <td>{size.waistWidth}"</td>
+                      <td>{size.shoulder}"</td>
+                      <td>{size.length}"</td>
                     </tr>
                   ))}
                 </tbody>
@@ -353,14 +331,14 @@ function DesignDetails() {
             </div>
 
             <div className="size-guide-note">
-              <strong>How to choose your size</strong>
+              <strong>Measurement note</strong>
 
               <p>
-                Measure a T-shirt you already own
-                that fits you well. Lay it flat and
-                compare its chest, length and
-                shoulder measurements with the chart
-                above.
+                All measurements are in inches. Waist / Width represents
+                the garment's circumference based on its flat width.
+                Shoulder is the doubled shoulder measurement supplied for
+                this chart. Length is measured vertically and has not been
+                doubled.
               </p>
             </div>
           </div>

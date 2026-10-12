@@ -304,7 +304,6 @@ function CustomDesign() {
                     Select a size
                   </option>
 
-                  <option value="XXS">XXS</option>
                   <option value="XS">XS</option>
                   <option value="S">S</option>
                   <option value="M">M</option>
