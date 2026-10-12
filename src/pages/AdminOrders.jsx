@@ -12,6 +12,11 @@ function AdminOrders() {
   } = useAuth();
 
   const [orders, setOrders] = useState([]);
+  const [queryCounts, setQueryCounts] = useState({
+    orders: 0,
+    items: 0,
+    unmatchedItems: 0,
+  });
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState("");
   const [successMessage, setSuccessMessage] =
@@ -22,6 +27,10 @@ function AdminOrders() {
 
   const [updatingOrderId, setUpdatingOrderId] =
     useState(null);
+  const [overviewFilters, setOverviewFilters] = useState({
+    customer: "",
+    size: "",
+  });
 
   /*
     ==========================================
@@ -115,57 +124,114 @@ function AdminOrders() {
 
     setLoading(true);
     setError("");
+    setQueryCounts({ orders: 0, items: 0, unmatchedItems: 0 });
 
-    const { data, error } = await supabase
-      .from("orders")
-      .select(`
-        id,
-        order_number,
-        customer_name,
-        customer_phone,
-        customer_email,
-        delivery_address,
-        note,
-        total_amount,
-        advance_amount,
-        remaining_amount,
-        advance_accepted,
-        status,
-        created_at,
-        cancelled_at,
-        cancellation_reason,
-        order_items (
+    const pageSize = 500;
+    const allOrders = [];
+    let expectedOrderCount = 0;
+
+    do {
+      const from = allOrders.length;
+      const { data: orderPage, error: orderError, count } = await supabase
+        .from("orders")
+        .select(`
           id,
-          design_id,
-          design_name,
-          size,
-          quantity,
-          unit_price
-        )
-      `)
-      .order("created_at", {
-        ascending: false,
-      });
+          order_number,
+          customer_name,
+          total_amount,
+          status
+        `, { count: "exact" })
+        .order("created_at", { ascending: false })
+        .order("id", { ascending: true })
+        .range(from, from + pageSize - 1);
 
-    if (error) {
-      console.error(
-        "Admin orders fetch error:",
-        error
-      );
+      if (orderError || count === null) {
+        console.error("Admin orders fetch error:", orderError);
+        setError("We couldn't load the orders. Please try again.");
+        setLoading(false);
+        return;
+      }
 
-      setError(
-        "We couldn't load the orders. Please try again."
-      );
+      expectedOrderCount = count;
+      allOrders.push(...(orderPage || []));
 
-      setLoading(false);
-      return;
+      if (!orderPage?.length && allOrders.length < expectedOrderCount) {
+        setError("The complete order list could not be loaded. Please try again.");
+        setLoading(false);
+        return;
+      }
+    } while (allOrders.length < expectedOrderCount);
+
+    const orderIds = allOrders.map((order) => order.id);
+    const allItems = [];
+    let expectedItemCount = 0;
+
+    if (orderIds.length > 0) {
+      do {
+        const from = allItems.length;
+        const { data: itemPage, error: itemError, count } = await supabase
+          .from("order_items")
+          .select(`
+            id,
+            order_id,
+            design_id,
+            design_name,
+            size,
+            quantity,
+            unit_price
+          `, { count: "exact" })
+          .in("order_id", orderIds)
+          .order("order_id", { ascending: true })
+          .order("id", { ascending: true })
+          .range(from, from + pageSize - 1);
+
+        if (itemError || count === null) {
+          console.error("Admin order items fetch error:", itemError);
+          setError("We couldn't load all order products. Please try again.");
+          setLoading(false);
+          return;
+        }
+
+        expectedItemCount = count;
+        allItems.push(...(itemPage || []));
+
+        if (!itemPage?.length && allItems.length < expectedItemCount) {
+          setError("The complete order product list could not be loaded. Please try again.");
+          setLoading(false);
+          return;
+        }
+      } while (allItems.length < expectedItemCount);
     }
 
-    setOrders(data || []);
+    const getOrderKey = (id) => String(id ?? "");
+    const itemsByOrderId = new Map();
+    const fetchedOrderIds = new Set(allOrders.map((order) => getOrderKey(order.id)));
+    const unmatchedItems = allItems.filter(
+      (item) => !fetchedOrderIds.has(getOrderKey(item.order_id))
+    ).length;
+
+    allItems.forEach((item) => {
+      const orderKey = getOrderKey(item.order_id);
+      const items = itemsByOrderId.get(orderKey) || [];
+      items.push(item);
+      itemsByOrderId.set(orderKey, items);
+    });
+
+    const data = allOrders.map((order) => ({
+      ...order,
+      order_items: itemsByOrderId.get(getOrderKey(order.id)) || [],
+    }));
+
+    setOrders(data);
+    setQueryCounts({
+      orders: allOrders.length,
+      items: allItems.length,
+      unmatchedItems,
+    });
 
     const initialStatuses = {};
 
-    (data || []).forEach((order) => {
+    data.forEach((order) => {
       initialStatuses[order.id] = order.status;
     });
 
@@ -185,16 +251,6 @@ function AdminOrders() {
     ==========================================
   */
 
-  const formatDate = (date) => {
-    return new Intl.DateTimeFormat("en-IN", {
-      day: "numeric",
-      month: "short",
-      year: "numeric",
-      hour: "numeric",
-      minute: "2-digit",
-    }).format(new Date(date));
-  };
-
   const getStatusLabel = (status) => {
     return (
       statusLabels[status] ||
@@ -206,6 +262,39 @@ function AdminOrders() {
       "Pending"
     );
   };
+
+  const formatPrice = (amount) => {
+    if (amount === null || amount === undefined || !Number.isFinite(Number(amount))) {
+      return "Price unavailable";
+    }
+
+    return `₹${Number(amount).toLocaleString("en-IN")}`;
+  };
+
+  const availableSizes = ["XS", "S", "M", "L", "XL", "XXL"];
+
+  const filteredOrders = orders.filter((order) => {
+    const customerMatches = String(order.customer_name || "")
+      .toLowerCase()
+      .includes(overviewFilters.customer.trim().toLowerCase());
+    const itemMatches = !overviewFilters.size ||
+      (order.order_items || []).some((item) =>
+        String(item.size) === overviewFilters.size
+      );
+
+    return customerMatches && itemMatches;
+  });
+
+  const overviewRows = filteredOrders
+    .map((order) => ({
+      ...order,
+      matchingItems: order.order_items || [],
+    }));
+  const clearOverviewFilters = () =>
+    setOverviewFilters({
+      customer: "",
+      size: "",
+    });
 
   /*
     ==========================================
@@ -313,7 +402,11 @@ function AdminOrders() {
       );
 
       setError(
-        "We couldn't update this order. Please try again."
+        error.code === "42501"
+          ? "Your admin access could not update this order. Refresh the page and try again."
+          : error.code === "PGRST116"
+          ? "This order could not be found for updating. Refresh the page and try again."
+          : "The status update failed. Check your connection and try again."
       );
 
       setSelectedStatuses((previous) => ({
@@ -459,12 +552,10 @@ function AdminOrders() {
         </div>
 
         <div className="admin-order-count">
-          <strong>{orders.length}</strong>
+          <strong>{filteredOrders.length}</strong>
 
           <span>
-            {orders.length === 1
-              ? "order"
-              : "orders"}
+            {filteredOrders.length === 1 ? "order in view" : "orders in view"}
           </span>
         </div>
       </div>
@@ -485,355 +576,183 @@ function AdminOrders() {
         </div>
       )}
 
-      {/* NO ORDERS */}
-
-      {orders.length === 0 ? (
-        <div className="admin-orders-empty">
-          <h2>No orders yet</h2>
-
-          <p>
-            Customer orders will appear here once
-            someone places an order.
+      <section className="admin-overview" aria-labelledby="admin-overview-title">
+        <div className="admin-overview-heading">
+          <div>
+            <p className="section-eyebrow">ORDER MANAGEMENT</p>
+            <h2 id="admin-overview-title">All orders</h2>
+            <p>One row per order, with its products and sizes grouped together.</p>
+          </div>
+          <p className="admin-overview-result-count" aria-live="polite">
+            {filteredOrders.length} {filteredOrders.length === 1 ? "order" : "orders"}
           </p>
         </div>
-      ) : (
-        <div className="admin-orders-list">
-          {orders.map((order) => {
-            const selectedStatus =
-              selectedStatuses[order.id] ||
-              order.status;
 
-            const hasChanged =
-              selectedStatus !== order.status;
+        <p className="admin-query-counts">
+          Loaded {queryCounts.orders} authorised orders and {queryCounts.items} authorised product items.
+        </p>
 
-            const isUpdating =
-              updatingOrderId === order.id;
+        {queryCounts.unmatchedItems > 0 && (
+          <p className="admin-data-warning" role="status">
+            {queryCounts.unmatchedItems} product {queryCounts.unmatchedItems === 1 ? "record does" : "records do"}
+            {" "}not match a fetched order and could not be placed in the product table.
+          </p>
+        )}
 
-            const isCancelled =
-              order.status === "cancelled";
+        <div className="admin-overview-panel">
+          <div className="admin-overview-panel-heading">
+            <div>
+              <h3>Orders</h3>
+              <p>All available statuses are included, including cancelled orders.</p>
+            </div>
+            <button
+              type="button"
+              className="admin-clear-filters"
+              onClick={clearOverviewFilters}
+              disabled={!Object.values(overviewFilters).some(Boolean)}
+            >
+              Clear filters
+            </button>
+          </div>
 
-            const isDelivered =
-              order.status === "delivered";
+          <div className="admin-overview-filters">
+            <label>
+              <span>Customer</span>
+              <input
+                type="search"
+                value={overviewFilters.customer}
+                onChange={(event) =>
+                  setOverviewFilters((current) => ({
+                    ...current,
+                    customer: event.target.value,
+                  }))
+                }
+                placeholder="Search customer name"
+              />
+            </label>
 
-            const nextStatus = getNextStatus(
-              order.status
-            );
-
-            return (
-              <article
-                key={order.id}
-                className="admin-order-card"
+            <label>
+              <span>T-shirt size</span>
+              <select
+                value={overviewFilters.size}
+                onChange={(event) =>
+                  setOverviewFilters((current) => ({
+                    ...current,
+                    size: event.target.value,
+                  }))
+                }
               >
-                {/* ==================================
-                    HEADER
-                ================================== */}
+                <option value="">All sizes</option>
+                {availableSizes.map((size) => (
+                  <option key={size} value={size}>{size}</option>
+                ))}
+              </select>
+            </label>
 
-                <div className="admin-order-header">
-                  <div>
-                    <p className="admin-order-number">
-                      {order.order_number}
-                    </p>
+          </div>
 
-                    <p className="admin-order-date">
-                      {formatDate(
-                        order.created_at
-                      )}
-                    </p>
-                  </div>
-
-                  <span
-                    className={`order-status status-${order.status}`}
-                  >
-                    {getStatusLabel(
-                      order.status
-                    )}
-                  </span>
-                </div>
-
-                {/* ==================================
-                    STATUS CONTROL
-                ================================== */}
-
-                <section className="admin-status-section">
-                  <div>
-                    <div className="admin-section-title">
-                      Update status
-                    </div>
-
-                    <p className="admin-status-help">
-                      {isCancelled
-                        ? "This order has been cancelled and cannot be modified."
-                        : isDelivered
-                        ? "This order has been delivered and cannot be modified."
-                        : nextStatus
-                        ? `Next step: ${nextStatus.label}.`
-                        : "No further status changes are available."}
-                    </p>
-                  </div>
-
-                  {!isCancelled &&
-                    !isDelivered && (
-                      <div className="admin-status-controls">
-                        <select
-                          value={selectedStatus}
-                          onChange={(event) =>
-                            handleStatusChange(
-                              order.id,
-                              event.target.value
-                            )
-                          }
-                          disabled={isUpdating}
-                        >
-                          <option
-                            value={order.status}
-                          >
-                            {getStatusLabel(
-                              order.status
-                            )}
-                          </option>
-
-                          {nextStatus && (
-                            <option
-                              value={
-                                nextStatus.value
-                              }
+          {overviewRows.length === 0 ? (
+            <div className="admin-overview-empty">
+              <strong>No matching orders</strong>
+              <p>Try changing or clearing your filters.</p>
+            </div>
+          ) : (
+            <div className="admin-overview-table-wrap">
+              <table className="admin-overview-table">
+                <thead>
+                  <tr>
+                    <th>Order ID / number</th>
+                    <th>Customer name</th>
+                    <th>Design / product and ID</th>
+                    <th>T-shirt size</th>
+                    <th>Total price</th>
+                    <th>Order status</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  {overviewRows.map((order) => (
+                    <tr key={order.id}>
+                      <td data-label="Order ID / number">{order.order_number || order.id}</td>
+                      <td data-label="Customer name">{order.customer_name || "Customer name unavailable"}</td>
+                      <td data-label="Design / product and ID">
+                        <ul className="admin-overview-products">
+                          {order.matchingItems.length ? order.matchingItems.map((item, index) => (
+                            <li key={item.id ?? `${item.design_id ?? "item"}-${index}`}>
+                              <span>{item.design_name || "Product name unavailable"}</span>
+                              <small>{item.design_id || "Design ID unavailable"} · Qty {item.quantity ?? "Quantity unavailable"}</small>
+                              {item.unit_price !== null && item.unit_price !== undefined &&
+                                item.quantity !== null && item.quantity !== undefined &&
+                                Number.isFinite(Number(item.unit_price)) &&
+                                Number.isFinite(Number(item.quantity)) ? (
+                                  <small>
+                                    {formatPrice(item.unit_price)} × {item.quantity} = {formatPrice(
+                                      Number(item.unit_price) * Number(item.quantity)
+                                    )}
+                                  </small>
+                                ) : (
+                                  <small>Item price unavailable</small>
+                                )}
+                            </li>
+                          )) : <li><span>No visible product items</span></li>}
+                        </ul>
+                      </td>
+                      <td data-label="T-shirt size">
+                        <ul className="admin-overview-products">
+                          {order.matchingItems.length ? order.matchingItems.map((item, index) => (
+                            <li key={item.id ?? `${item.design_id ?? "size"}-${index}`}>
+                              <span>{item.size || "Size unavailable"}</span>
+                            </li>
+                          )) : <li><span>—</span></li>}
+                        </ul>
+                      </td>
+                      <td data-label="Total price">
+                        {formatPrice(order.total_amount)}
+                      </td>
+                      <td data-label="Order status">
+                        {order.status === "cancelled" || order.status === "delivered" ? (
+                          <span className={`admin-overview-status status-${order.status}`}>
+                            {getStatusLabel(order.status)}
+                          </span>
+                        ) : (
+                          <div className="admin-status-controls">
+                            <select
+                              value={selectedStatuses[order.id] || order.status}
+                              onChange={(event) => handleStatusChange(order.id, event.target.value)}
+                              disabled={updatingOrderId === order.id}
+                              aria-label={`Update status for ${order.order_number || "order"}`}
                             >
-                              →{" "}
-                              {nextStatus.label}
-                            </option>
-                          )}
-                        </select>
-
-                        <button
-                          type="button"
-                          className="primary-button admin-update-button"
-                          disabled={
-                            !hasChanged ||
-                            isUpdating
-                          }
-                          onClick={() =>
-                            updateOrderStatus(
-                              order
-                            )
-                          }
-                        >
-                          {isUpdating
-                            ? "Updating..."
-                            : "Update status"}
-                        </button>
-                      </div>
-                    )}
-                </section>
-
-                {/* ==================================
-                    CANCELLED ORDER INFO
-                ================================== */}
-
-                {isCancelled && (
-                  <section className="admin-cancelled-section">
-                    <div className="admin-section-title">
-                      Cancellation
-                    </div>
-
-                    <div className="admin-cancelled-box">
-                      <strong>
-                        Order cancelled
-                      </strong>
-
-                      {order.cancellation_reason && (
-                        <p>
-                          <strong>
-                            Reason:
-                          </strong>{" "}
-                          {order.cancellation_reason}
-                        </p>
-                      )}
-
-                      {order.cancelled_at && (
-                        <p>
-                          Cancelled on{" "}
-                          {formatDate(
-                            order.cancelled_at
-                          )}
-                        </p>
-                      )}
-                    </div>
-                  </section>
-                )}
-
-                {/* ==================================
-                    CUSTOMER
-                ================================== */}
-
-                <section className="admin-order-section">
-                  <div className="admin-section-title">
-                    Customer
-                  </div>
-
-                  <div className="admin-customer-grid">
-                    <div>
-                      <span>Name</span>
-
-                      <strong>
-                        {order.customer_name ||
-                          "—"}
-                      </strong>
-                    </div>
-
-                    <div>
-                      <span>Phone</span>
-
-                      <strong>
-                        {order.customer_phone ||
-                          "—"}
-                      </strong>
-                    </div>
-
-                    <div>
-                      <span>Email</span>
-
-                      <strong>
-                        {order.customer_email ||
-                          "—"}
-                      </strong>
-                    </div>
-
-                    <div>
-                      <span>
-                        Delivery address
-                      </span>
-
-                      <strong>
-                        {order.delivery_address ||
-                          "—"}
-                      </strong>
-                    </div>
-                  </div>
-
-                  {order.note && (
-                    <div className="admin-customer-note">
-                      <span>
-                        Customer note
-                      </span>
-
-                      <p>{order.note}</p>
-                    </div>
-                  )}
-                </section>
-
-                {/* ==================================
-                    ITEMS
-                ================================== */}
-
-                <section className="admin-order-section">
-                  <div className="admin-section-title">
-                    Order items
-                  </div>
-
-                  <div className="admin-order-items">
-                    {order.order_items?.map(
-                      (item) => (
-                        <div
-                          key={item.id}
-                          className="admin-order-item"
-                        >
-                          <div>
-                            <strong>
-                              {item.design_name}
-                            </strong>
-
-                            <p>
-                              {item.design_id} ·
-                              Size{" "}
-                              {item.size} · Qty{" "}
-                              {item.quantity}
-                            </p>
+                              <option value={order.status}>{getStatusLabel(order.status)}</option>
+                              {getNextStatus(order.status) && (
+                                <option value={getNextStatus(order.status).value}>
+                                  {getNextStatus(order.status).label}
+                                </option>
+                              )}
+                            </select>
+                            <button
+                              type="button"
+                              className="primary-button admin-update-button"
+                              disabled={
+                                !selectedStatuses[order.id] ||
+                                selectedStatuses[order.id] === order.status ||
+                                updatingOrderId === order.id
+                              }
+                              onClick={() => updateOrderStatus(order)}
+                            >
+                              {updatingOrderId === order.id ? "Updating..." : "Save"}
+                            </button>
                           </div>
-
-                          <strong>
-                            ₹
-                            {(
-                              Number(
-                                item.unit_price
-                              ) *
-                              item.quantity
-                            ).toLocaleString(
-                              "en-IN"
-                            )}
-                          </strong>
-                        </div>
-                      )
-                    )}
-                  </div>
-                </section>
-
-                {/* ==================================
-                    PAYMENT
-                ================================== */}
-
-                <section className="admin-order-section">
-                  <div className="admin-section-title">
-                    Payment
-                  </div>
-
-                  <div className="admin-payment-grid">
-                    <div>
-                      <span>Total</span>
-
-                      <strong>
-                        ₹
-                        {Number(
-                          order.total_amount
-                        ).toLocaleString(
-                          "en-IN"
                         )}
-                      </strong>
-                    </div>
+                      </td>
+                    </tr>
+                  ))}
+                </tbody>
+              </table>
+            </div>
+          )}
 
-                    <div>
-                      <span>Advance</span>
-
-                      <strong>
-                        ₹
-                        {Number(
-                          order.advance_amount
-                        ).toLocaleString(
-                          "en-IN"
-                        )}
-                      </strong>
-                    </div>
-
-                    <div>
-                      <span>Remaining</span>
-
-                      <strong>
-                        ₹
-                        {Number(
-                          order.remaining_amount
-                        ).toLocaleString(
-                          "en-IN"
-                        )}
-                      </strong>
-                    </div>
-
-                    <div>
-                      <span>
-                        Advance accepted
-                      </span>
-
-                      <strong>
-                        {order.advance_accepted
-                          ? "Yes"
-                          : "No"}
-                      </strong>
-                    </div>
-                  </div>
-                </section>
-              </article>
-            );
-          })}
         </div>
-      )}
+      </section>
+
     </main>
   );
 }

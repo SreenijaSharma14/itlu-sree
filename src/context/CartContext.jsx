@@ -4,11 +4,15 @@ import {
   useEffect,
   useState,
 } from "react";
+import designs from "../data/designs";
 
 const CartContext = createContext();
 
 const getCartKey = (designId, size) =>
   `${designId}-${size}`;
+const designIdsByName = new Map(
+  designs.map((design) => [design.name, design.id])
+);
 
 function CartProvider({ children }) {
   const [cart, setCart] = useState(() => {
@@ -24,9 +28,21 @@ function CartProvider({ children }) {
 
       // Remove old cart items created before
       // size selection was introduced.
-      return parsedCart.filter(
-        (item) => item.size && item.cartKey
-      );
+      return parsedCart
+        .filter((item) => item.size && item.cartKey)
+        .map((item) => {
+          const designId = designIdsByName.get(item.name);
+
+          if (!designId || designId === item.id) {
+            return item;
+          }
+
+          return {
+            ...item,
+            id: designId,
+            cartKey: getCartKey(designId, item.size),
+          };
+        });
     } catch {
       return [];
     }

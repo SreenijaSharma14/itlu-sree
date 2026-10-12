@@ -4,6 +4,15 @@ import { Link } from "react-router-dom";
 import { useAuth } from "../context/AuthContext";
 import { supabase } from "../lib/supabaseClient";
 
+const cancellableOrderStatuses = [
+  "pending",
+  "accepted",
+  "payment",
+];
+
+const isOrderCancellable = (order) =>
+  cancellableOrderStatuses.includes(order?.status);
+
 function MyOrders() {
   const { user } = useAuth();
 
@@ -170,7 +179,7 @@ function MyOrders() {
   const handleCancelOrder = async () => {
     if (!cancellingOrder) return;
 
-    if (cancellingOrder.status !== "pending") {
+    if (!isOrderCancellable(cancellingOrder)) {
       setCancelError(
         "This order can no longer be cancelled."
       );
@@ -196,7 +205,7 @@ function MyOrders() {
       })
       .eq("id", cancellingOrder.id)
       .eq("user_id", user.id)
-      .eq("status", "pending")
+      .in("status", cancellableOrderStatuses)
       .select(`
         id,
         order_number,
@@ -225,7 +234,7 @@ function MyOrders() {
       );
 
       setCancelError(
-        "We couldn't cancel this order. It may have already been accepted. Please refresh and try again."
+        "We couldn't cancel this order. It may have moved to a confirmed status. Please refresh your orders and try again."
       );
 
       setCancelling(false);
@@ -581,7 +590,7 @@ function MyOrders() {
 
                 {/* CUSTOMER CANCELLATION */}
 
-                {order.status === "pending" && (
+                {isOrderCancellable(order) && (
                   <div className="order-cancel-section">
                     <div>
                       <strong>
@@ -590,7 +599,8 @@ function MyOrders() {
 
                       <p>
                         You can cancel this order
-                        while it is still pending.
+                        until payment is verified and
+                        the order is confirmed.
                       </p>
                     </div>
 
@@ -650,23 +660,6 @@ function MyOrders() {
                 </strong>
                 .
               </p>
-
-              {/* PAYMENT WARNING */}
-
-              <div className="payment-warning-box">
-                <strong>
-                  ⚠ Payment & refund policy
-                </strong>
-
-                <p>
-                  If you have already made any payment
-                  for this order,{" "}
-                  <strong>
-                    no refund will be issued
-                  </strong>{" "}
-                  after cancellation.
-                </p>
-              </div>
 
               <p className="cancellation-final-question">
                 Do you really want to cancel this
