@@ -18,6 +18,7 @@ import DesignDetails from "./pages/DesignDetails";
 import CustomDesign from "./pages/CustomDesign";
 import Cart from "./pages/Cart";
 import ScrollToTop from "./ScrollToTop";
+import ScrollReveal from "./ScrollReveal";
 
 import AuthProvider, {
   useAuth,
@@ -234,11 +235,13 @@ function Home() {
           </h2>
 
           <p>
-            Itlu Sree is a little space for creativity,
-            colour and self-expression. Each T-shirt is
-            hand-painted with care, making every piece
-            feel personal and unique. No mass production,
-            just art made by hand and worn with love.
+            I've always loved making gifts for the people I love. To me, a
+            gift isn't just about its price or how it looks; the time, thought,
+            effort, and love behind it matter just as much. I enjoy making
+            something personal that helps someone feel special. That love for
+            thoughtful, handmade gifts is how itlu sree began. I wanted to put
+            that same care and affection into hand-painted pieces that you can
+            give to someone you love or keep for yourself.
           </p>
         </section>
 
@@ -290,6 +293,7 @@ function AppRoutes() {
   return (
     <>
       <ScrollToTop />
+      <ScrollReveal />
 
       <Routes>
         <Route path="/" element={<Home />} />

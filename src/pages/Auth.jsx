@@ -26,6 +26,8 @@ function Auth() {
     useState(false);
   const [showRegistrationPassword, setShowRegistrationPassword] =
     useState(false);
+  const [showConfirmPassword, setShowConfirmPassword] =
+    useState(false);
   const passwordVisible =
     mode === "login"
       ? showLoginPassword
@@ -63,13 +65,14 @@ function Auth() {
 
   const handleSubmit = async (event) => {
     event.preventDefault();
+    const isRegistration = mode === "register";
 
     setError("");
     setMessage("");
     setLoading(true);
 
     try {
-      if (mode === "register") {
+      if (isRegistration) {
         if (
           formData.password !==
           formData.confirmPassword
@@ -92,15 +95,15 @@ function Auth() {
           password: formData.password,
         });
 
-       if (!data.session) {
-  setMessage(
-    "Account created! Please check your email to confirm your account."
-  );
-} else {
-  navigate("/", {
-    replace: true,
-  });
-}
+        if (data.session) {
+          navigate("/", {
+            replace: true,
+          });
+        } else {
+          setMessage(
+            "If you're registering for the first time, check your inbox for a confirmation email. If you already have an account, please log in."
+          );
+        }
       } else {
         await login(
           formData.email,
@@ -112,10 +115,33 @@ function Auth() {
         });
       }
     } catch (err) {
-      setError(
-        err.message ||
-          "Something went wrong. Please try again."
-      );
+      const errorCode = String(err?.code || "").toLowerCase();
+      const errorMessage = String(err?.message || "");
+      const normalizedMessage = errorMessage.toLowerCase();
+
+      if (
+        isRegistration &&
+        (Number(err?.status) === 429 ||
+          errorCode.includes("rate_limit") ||
+          normalizedMessage.includes("rate limit"))
+      ) {
+        setError(
+          "Too many signup requests right now. Please wait a few minutes and try again."
+        );
+      } else if (
+        isRegistration &&
+        (["user_already_exists", "email_exists"].includes(errorCode) ||
+          normalizedMessage.includes("user already registered") ||
+          normalizedMessage.includes("email already exists"))
+      ) {
+        setError(
+          "An account with this email may already exist. Try logging in instead."
+        );
+      } else {
+        setError(
+          errorMessage || "Something went wrong. Please try again."
+        );
+      }
     } finally {
       setLoading(false);
     }
@@ -182,6 +208,12 @@ function Auth() {
               Register
             </button>
           </div>
+
+          {mode === "register" && (
+            <p className="auth-registration-notice">
+              Already have an account or already registered? Please log in instead of registering again.
+            </p>
+          )}
 
           <form
             className="auth-form"
@@ -279,15 +311,33 @@ function Auth() {
                   Confirm password
                 </label>
 
-                <input
-                  id="auth-confirm-password"
-                  name="confirmPassword"
-                  type="password"
-                  placeholder="Enter your password again"
-                  value={formData.confirmPassword}
-                  onChange={handleChange}
-                  required
-                />
+                <div className="password-input-wrap">
+                  <input
+                    id="auth-confirm-password"
+                    name="confirmPassword"
+                    type={showConfirmPassword ? "text" : "password"}
+                    placeholder="Enter your password again"
+                    value={formData.confirmPassword}
+                    onChange={handleChange}
+                    required
+                  />
+                  <button
+                    type="button"
+                    className="password-visibility-toggle"
+                    aria-controls="auth-confirm-password"
+                    aria-label={
+                      showConfirmPassword
+                        ? "Hide confirm password"
+                        : "Show confirm password"
+                    }
+                    aria-pressed={showConfirmPassword}
+                    onClick={() =>
+                      setShowConfirmPassword((visible) => !visible)
+                    }
+                  >
+                    {showConfirmPassword ? "Hide" : "Show"}
+                  </button>
+                </div>
               </div>
             )}
 

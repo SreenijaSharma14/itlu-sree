@@ -114,7 +114,7 @@ function DesignDetails() {
         ← Back to collection
       </Link>
 
-      <div className="details-container">
+      <div key={design.id} className="details-container design-detail-enter">
         <div className="details-images">
           <figure className="details-image">
             <img
@@ -290,7 +290,7 @@ function DesignDetails() {
                   SIZE GUIDE
                 </p>
 
-                <h2>Find your fit.</h2>
+                <h2>T-Shirt Size Chart</h2>
               </div>
 
               <button
@@ -309,21 +309,22 @@ function DesignDetails() {
               <table className="size-guide-table">
                 <thead>
                   <tr>
-                    <th>Size</th>
-
-                    <th>Waist / Width</th>
-                    <th>Shoulder</th>
-                    <th>Length</th>
+                    <th>Size Label</th>
+                    <th>Suitable for Human Chest Circumference</th>
+                    <th>Target Human Shoulder Width</th>
+                    <th>Target Human Body Torso Length</th>
+                    <th>Garment Height (Flat Shirt Length)</th>
                   </tr>
                 </thead>
 
                 <tbody>
                   {sizeGuideMeasurements.map((size) => (
-                    <tr key={size.size}>
-                      <td>{size.size}</td>
-                      <td>{size.waistWidth}"</td>
-                      <td>{size.shoulder}"</td>
-                      <td>{size.length}"</td>
+                    <tr key={size.label}>
+                      <td>{size.label} (Size {size.numericSize})</td>
+                      <td>{size.chest} inches</td>
+                      <td>{size.shoulder} inches</td>
+                      <td>Fits up to a {size.torso} inch torso</td>
+                      <td>{size.garmentHeight} inches</td>
                     </tr>
                   ))}
                 </tbody>
@@ -331,15 +332,24 @@ function DesignDetails() {
             </div>
 
             <div className="size-guide-note">
-              <strong>Measurement note</strong>
+              <strong>Quick Guide for Customers</strong>
 
-              <p>
-                All measurements are in inches. Waist / Width represents
-                the garment's circumference based on its flat width.
-                Shoulder is the doubled shoulder measurement supplied for
-                this chart. Length is measured vertically and has not been
-                doubled.
-              </p>
+              <ul>
+                <li>
+                  <strong>Chest Size:</strong> Find your physical chest
+                  circumference. Pick the size label above that includes your
+                  measurement for a comfortable, regular fit.
+                </li>
+                <li>
+                  <strong>Shoulder Width:</strong> Measure straight across your
+                  upper back from the edge of one shoulder bone to the other.
+                </li>
+                <li>
+                  <strong>Torso Length:</strong> Measure vertically from the
+                  base of your neck (High Point Shoulder) down to where you
+                  want the shirt to hang.
+                </li>
+              </ul>
             </div>
           </div>
         </div>

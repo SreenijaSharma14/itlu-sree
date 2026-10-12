@@ -101,6 +101,12 @@ function Account() {
 
   return (
     <main className="account-page">
+      <div className="account-back-link account-top-link">
+        <Link to="/#collection" className="continue-shopping">
+          ← Continue shopping
+        </Link>
+      </div>
+
       <header className="account-heading">
         <p className="section-eyebrow">MY ACCOUNT</p>
         <h1>Your little corner. ♡</h1>
@@ -211,10 +217,6 @@ function Account() {
           </div>
         )}
       </section>
-
-      <div className="account-back-link">
-        <Link to="/">← Continue shopping</Link>
-      </div>
     </main>
   );
 }

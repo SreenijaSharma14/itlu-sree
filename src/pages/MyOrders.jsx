@@ -330,6 +330,11 @@ function MyOrders() {
 
   return (
     <main className="my-orders-page">
+      <div className="account-back-link account-top-link">
+        <Link to="/#collection" className="continue-shopping">
+          ← Continue shopping
+        </Link>
+      </div>
       <div className="my-orders-heading">
         <p className="section-eyebrow">
           MY ORDERS
@@ -605,12 +610,6 @@ function MyOrders() {
           })}
         </div>
       )}
-
-      <div className="my-orders-back">
-        <Link to="/">
-          ← Continue shopping
-        </Link>
-      </div>
 
       {/* ==========================================
           CANCELLATION POPUPS
