@@ -1,5 +1,5 @@
 
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import {
   Link,
   useNavigate,
@@ -10,16 +10,22 @@ import { useAuth } from "../context/AuthContext";
 function Auth() {
   const navigate = useNavigate();
   const [searchParams] = useSearchParams();
-  const { login, register } = useAuth();
+  const {
+    login,
+    register,
+    user,
+    profile,
+    loading: authLoading,
+  } = useAuth();
 
   const requestedRedirect =
-    searchParams.get("redirect") || "/";
+    searchParams.get("redirect");
 
   const safeRedirect =
-    requestedRedirect.startsWith("/") &&
+    requestedRedirect?.startsWith("/") &&
     !requestedRedirect.startsWith("//")
       ? requestedRedirect
-      : "/";
+      : null;
 
   const [mode, setMode] = useState("login");
   const [showLoginPassword, setShowLoginPassword] =
@@ -42,8 +48,38 @@ function Auth() {
   });
 
   const [loading, setLoading] = useState(false);
+  const [pendingLoginUserId, setPendingLoginUserId] = useState(null);
   const [error, setError] = useState("");
   const [message, setMessage] = useState("");
+
+  useEffect(() => {
+    if (!pendingLoginUserId || authLoading) {
+      return;
+    }
+
+    if (user?.id !== pendingLoginUserId) {
+      return;
+    }
+
+    if (profile?.id !== pendingLoginUserId) {
+      setError("Your account profile could not be loaded. Please try logging in again.");
+      setPendingLoginUserId(null);
+      return;
+    }
+
+    navigate(
+      safeRedirect || (profile.role === "admin" ? "/admin/orders" : "/"),
+      { replace: true }
+    );
+    setPendingLoginUserId(null);
+  }, [
+    authLoading,
+    navigate,
+    pendingLoginUserId,
+    profile,
+    safeRedirect,
+    user,
+  ]);
 
   const handleChange = (event) => {
     const { name, value } = event.target;
@@ -105,14 +141,16 @@ function Auth() {
           );
         }
       } else {
-        await login(
+        const data = await login(
           formData.email,
           formData.password
         );
 
-        navigate(safeRedirect, {
-          replace: true,
-        });
+        if (!data.user?.id) {
+          throw new Error("Unable to confirm the signed-in account. Please try again.");
+        }
+
+        setPendingLoginUserId(data.user.id);
       }
     } catch (err) {
       const errorCode = String(err?.code || "").toLowerCase();

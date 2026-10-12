@@ -6142,10 +6142,21 @@ a {
     flex-direction: column;
     gap: 16px;
     padding: 18px;
+    width: 100%;
+    min-width: 0;
+    box-sizing: border-box;
+    overflow: visible;
   }
 
   .cancel-order-button {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    align-self: stretch;
     width: 100%;
+    min-width: 0;
+    min-height: 48px;
+    box-sizing: border-box;
   }
 
   .cancellation-modal {

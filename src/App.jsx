@@ -115,6 +115,16 @@ function Home() {
                     ♡
                   </p>
 
+                  {profile?.role === "admin" && (
+                    <Link
+                      to="/admin/orders"
+                      className="account-menu-item"
+                      onClick={() => setAccountOpen(false)}
+                    >
+                      Admin Dashboard
+                    </Link>
+                  )}
+
                   <Link
                     to="/account"
                     className="account-menu-item"

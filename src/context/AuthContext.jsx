@@ -119,19 +119,26 @@ function AuthProvider({ children }) {
   ----------------------------------------- */
 
   const login = async (email, password) => {
-    const {
-      data,
-      error,
-    } = await supabase.auth.signInWithPassword({
-      email,
-      password,
-    });
+    setLoading(true);
 
-    if (error) {
+    try {
+      const {
+        data,
+        error,
+      } = await supabase.auth.signInWithPassword({
+        email,
+        password,
+      });
+
+      if (error) {
+        throw error;
+      }
+
+      return data;
+    } catch (error) {
+      setLoading(false);
       throw error;
     }
-
-    return data;
   };
 
   /* -----------------------------------------
