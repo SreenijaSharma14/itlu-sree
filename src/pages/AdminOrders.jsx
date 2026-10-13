@@ -138,6 +138,8 @@ function AdminOrders() {
           id,
           order_number,
           customer_name,
+          customer_phone,
+          customer_email,
           total_amount,
           status
         `, { count: "exact" })
@@ -673,7 +675,23 @@ function AdminOrders() {
                   {overviewRows.map((order) => (
                     <tr key={order.id}>
                       <td data-label="Order ID / number">{order.order_number || order.id}</td>
-                      <td data-label="Customer name">{order.customer_name || "Customer name unavailable"}</td>
+                      <td data-label="Customer name">
+  <div className="admin-customer-contact">
+    <strong>
+      {order.customer_name || "Customer name unavailable"}
+    </strong>
+
+    <div>
+      <strong>Phone:</strong>{" "}
+      {order.customer_phone || "Not provided"}
+    </div>
+
+    <div>
+      <strong>Email:</strong>{" "}
+      {order.customer_email || "Not provided"}
+    </div>
+  </div>
+</td>
                       <td data-label="Design / product and ID">
                         <ul className="admin-overview-products">
                           {order.matchingItems.length ? order.matchingItems.map((item, index) => (
