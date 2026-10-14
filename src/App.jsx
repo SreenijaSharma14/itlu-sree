@@ -20,9 +20,7 @@ import Cart from "./pages/Cart";
 import ScrollToTop from "./ScrollToTop";
 import ScrollReveal from "./ScrollReveal";
 
-import AuthProvider, {
-  useAuth,
-} from "./context/AuthContext";
+import{ useAuth } from "./context/AuthContext";
 
 import Auth from "./pages/Auth";
 import MyOrders from "./pages/MyOrders";
@@ -379,11 +377,9 @@ function AppRoutes() {
 
 function App() {
   return (
-    <AuthProvider>
-      <BrowserRouter>
-        <AppRoutes />
-      </BrowserRouter>
-    </AuthProvider>
+    <BrowserRouter>
+      <AppRoutes />
+    </BrowserRouter>
   );
 }
 
